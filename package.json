@@ -1,0 +1,54 @@
+{
+  "name": "auth0-actions-types",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "TypeScript type definitions for Auth0 Actions runtime and event objects. Forked conceptually from\nthe unmaintained ecosystem packages; focuses on correctness, currency, and CI enforced quality.",
+  "main": "src/index.d.ts",
+  "scripts": {
+    "lint": "eslint src",
+    "format": "prettier --check .",
+    "fix": "eslint --fix src && prettier --write .",
+    "check-docs": "node --experimental-strip-types ./scripts/checkDocs.ts",
+    "update-snapshots": "node --experimental-strip-types ./scripts/updateSnapshots.ts"
+  },
+  "types": "src/index.d.ts",
+  "files": [
+    "src/index.d.ts",
+    "src/api/*",
+    "src/event/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makbol/auth0-actions-types.git"
+  },
+  "keywords": [
+    "auth0-actions",
+    "auth0",
+    "actions",
+    "types",
+    "typescript-definitions",
+    "dts",
+    "typings"
+  ],
+  "author": "Max (https://github.com/makbol)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/makbol/auth0-actions-types/issues"
+  },
+  "homepage": "https://github.com/makbol/auth0-actions-types",
+  "devDependencies": {
+    "@eslint/js": "9.36.0",
+    "@types/node": "24.6.0",
+    "cheerio": "1.1.2",
+    "colors": "1.4.0",
+    "diff": "8.0.2",
+    "eslint": "9.36.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jsdoc": "60.4.0",
+    "globals": "16.4.0",
+    "jiti": "2.6.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.44.1"
+  }
+}

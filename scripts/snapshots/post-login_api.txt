@@ -1,0 +1,1773 @@
+Actions Triggers: post-login - API ObjectThe API object for the post-login Actions trigger includes:  
+  api.access
+  
+    Modify the user's login access, such as by rejecting the login attempt.
+  
+  api.access.deny(reason)
+  
+    Mark the current login attempt as denied. This will prevent the end-user
+    from completing the login flow. This will NOT cancel other
+    user-related side effects (such as metadata changes) requested by this
+    Action. The login flow will immediately stop following the completion of 
+    this action and no further Actions will be executed.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        reason
+        
+          
+            String. A human-readable explanation for rejecting the
+            login. This is sent as error_description to the application that initiated the request.
+          
+        
+      
+    
+  
+
+
+  api.accessToken
+  Request changes to the access token being issued.
+  api.accessToken.setCustomClaim(name, value)
+  
+    Set a custom claim on the Access Token that will be issued upon completion
+    of the login flow.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        name
+        
+          
+            String. Name of the claim (note that this may need to be a
+            fully-qualified URL).
+          
+        
+      
+      
+        value
+        
+          Any value. The value of the claim.
+        
+      
+    
+  
+  api.accessToken.addScope(scope)
+  
+    Add a scope on the Access Token that will be issued upon completion of the login flow.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        scope
+        
+          
+            String The scope to be added.
+          
+        
+      
+    
+  
+    api.accessToken.removeScope(scope)
+  
+    Remove a scope on the Access Token that will be issued upon completion of the login flow.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        scope
+        
+          
+            String The scope to be removed.
+          
+        
+      
+    
+  
+
+
+  api.authentication
+  
+    Request changes to the authentication state of the current user's session.
+  
+  api.authentication.recordMethod(provider_url)
+  
+    Indicate that a custom authentication method has been completed in the
+    current session. This method will then be available in the
+    `event.authentication.methods` array in subsequent logins.
+  
+  
+    Important: This API is only available from within the
+    onContinuePostLogin function for
+    PostLogin Actions. In other words, this may be used to record
+    the completion of a custom authentication method after redirecting the user
+    via  api.redirect.sendUserTo().
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        provider_url
+        
+          
+            String. A url representing the identity of the custom
+            authenticated method that was completed.
+          
+        
+      
+    
+  
+   api.authentication.challengeWith(factor, options)
+  
+    Challenge the user with one or more specified multifactor authentication factors. This method presents the default challenge first, then allows the user to select a different option if additional factors have been supplied. If the user has not enrolled in any of the factors supplied (including both the default and any additional factors), the command fails. 
+  
+  
+    Note: This method overrides existing policies and rules that enable or disable MFA in a tenant. 
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        factor
+        
+          
+            Object. An object containing the type field. type is a string used to specify the default MFA factor or factors used to challenge the user. 
+          
+            Supported values include:
+          
+            otp
+            recovery-code
+            email
+            push-notification
+                
+                    otpFallbackWhen set to false, the user cannot use the OTP fallback option of the push notification factor. 
+                
+            phone
+                
+                    preferredMethod: voice
+                    preferredMethod: sms
+                    preferredMethod: both
+            
+            webauthn-platform
+            webauthn-roaming
+          
+          Example
+          .css-i3pbo{margin-bottom:24px;}.css-1ler0{margin-bottom:24px;}.css-18zbu0o{position:relative;}.css-18zbu0o .show-scroll{max-height:500px;overflow:scroll;}.css-18zbu0o button.copy-button{position:absolute;right:0.5em;top:0.5em;}.css-18zbu0o pre.code-highlight-prism{border:0;}.css-18zbu0o code.code-highlight-prism{color:#FFFFFF;}.css-18zbu0o .token.keyword{color:#B9E0CB;}.css-18zbu0o .token.property,.css-18zbu0o .token.constant,.css-18zbu0o .token.symbol,.css-18zbu0o .token.deleted{color:#B9E0CB;}.css-18zbu0o .token.selector,.css-18zbu0o .token.string,.css-18zbu0o .token.char,.css-18zbu0o .token.builtin,.css-18zbu0o .token.inserted{color:#bcbcff;}.css-18zbu0o .token.boolean,.css-18zbu0o .token.number{color:#bcbcff;}.css-18zbu0o .token.class-name,.css-18zbu0o .token.attr-name,.css-18zbu0o .token .punctuation{color:#DCD1FC;}.css-18zbu0o .token.attr-value,.css-18zbu0o .token.tag,.css-18zbu0o .token.script .punctuation,.css-18zbu0o .token.atrule{color:#bcbcff;}.css-18zbu0o .token.function{color:#FFFFFF;}.css-18zbu0o .token.regex,.css-18zbu0o .token.important{color:#DCD1FC;}.css-18zbu0o .token.namespace{opacity:1;}.css-18zbu0o .line-highlight{background:rgba(85, 85, 85, 0.2);border-bottom:0.5px solid rgba(255, 255, 255, 0.25);border-top:0.5px solid rgba(255, 255, 255, 0.25);}.css-18zbu0o .line-numbers{font-family:Roboto Mono,Menlo,Monaco,Consolas,Courier New,monospace;font-size:0.875rem;line-height:1.25rem;letter-spacing:0.15px;font-weight:400;-webkit-font-smoothing:subpixel-antialiased;}.css-18zbu0o .line-numbers .line-numbers-rows{border-right:none;color:#5a5f66;}.css-18zbu0o :not(pre)>code[class*="language-"],.css-18zbu0o pre[class*="language-"]{background:#1E1E1E;}.css-18zbu0o pre[class*="language-"]{margin:0;}.css-18zbu0o .token.package:before,.css-18zbu0o .token.package:after{display:none;}.css-18zbu0o .token.package{background:none;border:none;}api.authentication.challengeWith({ 
+  type: 'phone', 
+  options: { preferredMethod: 'both'} 
+});.css-re1tye{color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6{padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6:focus,.css-1brrap6.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1brrap6.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1brrap6>svg:first-child{height:1em;width:1em;}.css-1t8h97s{text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1t8h97s:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-1t8h97s.Mui-disabled,.css-1t8h97s:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-1t8h97s:focus,.css-1t8h97s.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1t8h97s.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1t8h97s>svg:first-child{height:1em;width:1em;}.css-juxxc7{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-juxxc7::-moz-focus-inner{border-style:none;}.css-juxxc7.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-juxxc7{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-juxxc7:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-juxxc7.Mui-disabled,.css-juxxc7:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-juxxc7:active,.css-juxxc7.Mui-active{color:#263588;background-color:#E4E7FB;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-juxxc7:active,.css-juxxc7.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-juxxc7:focus,.css-juxxc7.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-juxxc7.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-juxxc7>svg:first-child{height:1em;width:1em;}.css-3tbxyb{position:relative;gap:12px;margin-top:16px;}.css-lqmrhz{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:baseline;-webkit-box-align:baseline;-ms-flex-align:baseline;align-items:baseline;-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end;position:relative;gap:12px;margin-top:16px;}.css-1pmssyl{margin:0;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:400;font-size:0.875rem;line-height:1.57143;letter-spacing:0;}Was this helpful?.css-v9we1n{grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:600px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:960px){.css-v9we1n{grid-template-columns:none;}}.css-1wl17lu{display:grid;gap:0px;grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:repeat(2, minmax(0,1fr));}}@media (min-width:0px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:none;}}.css-1c1xxt8{padding:0px 8px;}.css-1c1xxt8:focus{box-shadow:none;}.css-kea6zk{padding:0px 8px;}.css-kea6zk:focus{box-shadow:none;}.css-dtxjki{font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-dtxjki:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-dtxjki:hover{background-color:transparent;}}.css-dtxjki.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-dtxjki:hover{box-shadow:none;}.css-dtxjki.Mui-focusVisible{box-shadow:none;}.css-dtxjki:active{box-shadow:none;}.css-dtxjki.Mui-disabled{box-shadow:none;}.css-dtxjki.Mui-disabled,.css-dtxjki:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-dtxjki:focus,.css-dtxjki.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-dtxjki:hover,.css-dtxjki.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-dtxjki:active,.css-dtxjki.Mui-active{color:#263588;background-color:#E4E7FB;}.css-dtxjki:focus{box-shadow:none;}.css-1spzyzx{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-1spzyzx::-moz-focus-inner{border-style:none;}.css-1spzyzx.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1spzyzx{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1spzyzx:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-1spzyzx:hover{background-color:transparent;}}.css-1spzyzx.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-1spzyzx:hover{box-shadow:none;}.css-1spzyzx.Mui-focusVisible{box-shadow:none;}.css-1spzyzx:active{box-shadow:none;}.css-1spzyzx.Mui-disabled{box-shadow:none;}.css-1spzyzx.Mui-disabled,.css-1spzyzx:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1spzyzx:focus,.css-1spzyzx.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1spzyzx:hover,.css-1spzyzx.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1spzyzx:active,.css-1spzyzx.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1spzyzx:focus{box-shadow:none;}Yes /No 
+          
+        
+      
+      
+        options
+        
+          
+            Optional object. An object containing the optional additionalFactors field. 
+          additionalFactors is an array used to specify other factors a user can choose from when completing the MFA challenge. Supports the same values as the type field. 
+          Example
+          .css-i3pbo{margin-bottom:24px;}.css-1ler0{margin-bottom:24px;}.css-18zbu0o{position:relative;}.css-18zbu0o .show-scroll{max-height:500px;overflow:scroll;}.css-18zbu0o button.copy-button{position:absolute;right:0.5em;top:0.5em;}.css-18zbu0o pre.code-highlight-prism{border:0;}.css-18zbu0o code.code-highlight-prism{color:#FFFFFF;}.css-18zbu0o .token.keyword{color:#B9E0CB;}.css-18zbu0o .token.property,.css-18zbu0o .token.constant,.css-18zbu0o .token.symbol,.css-18zbu0o .token.deleted{color:#B9E0CB;}.css-18zbu0o .token.selector,.css-18zbu0o .token.string,.css-18zbu0o .token.char,.css-18zbu0o .token.builtin,.css-18zbu0o .token.inserted{color:#bcbcff;}.css-18zbu0o .token.boolean,.css-18zbu0o .token.number{color:#bcbcff;}.css-18zbu0o .token.class-name,.css-18zbu0o .token.attr-name,.css-18zbu0o .token .punctuation{color:#DCD1FC;}.css-18zbu0o .token.attr-value,.css-18zbu0o .token.tag,.css-18zbu0o .token.script .punctuation,.css-18zbu0o .token.atrule{color:#bcbcff;}.css-18zbu0o .token.function{color:#FFFFFF;}.css-18zbu0o .token.regex,.css-18zbu0o .token.important{color:#DCD1FC;}.css-18zbu0o .token.namespace{opacity:1;}.css-18zbu0o .line-highlight{background:rgba(85, 85, 85, 0.2);border-bottom:0.5px solid rgba(255, 255, 255, 0.25);border-top:0.5px solid rgba(255, 255, 255, 0.25);}.css-18zbu0o .line-numbers{font-family:Roboto Mono,Menlo,Monaco,Consolas,Courier New,monospace;font-size:0.875rem;line-height:1.25rem;letter-spacing:0.15px;font-weight:400;-webkit-font-smoothing:subpixel-antialiased;}.css-18zbu0o .line-numbers .line-numbers-rows{border-right:none;color:#5a5f66;}.css-18zbu0o :not(pre)>code[class*="language-"],.css-18zbu0o pre[class*="language-"]{background:#1E1E1E;}.css-18zbu0o pre[class*="language-"]{margin:0;}.css-18zbu0o .token.package:before,.css-18zbu0o .token.package:after{display:none;}.css-18zbu0o .token.package{background:none;border:none;}api.authentication.challengeWith({
+  type: 'otp'
+}, {
+  additionalFactors: [{
+    type: 'push-notification'
+  }, {
+    type: 'phone'
+  }]
+}).css-re1tye{color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6{padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6:focus,.css-1brrap6.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1brrap6.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1brrap6>svg:first-child{height:1em;width:1em;}.css-1t8h97s{text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1t8h97s:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-1t8h97s.Mui-disabled,.css-1t8h97s:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-1t8h97s:focus,.css-1t8h97s.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1t8h97s.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1t8h97s>svg:first-child{height:1em;width:1em;}.css-juxxc7{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-juxxc7::-moz-focus-inner{border-style:none;}.css-juxxc7.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-juxxc7{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-juxxc7:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-juxxc7.Mui-disabled,.css-juxxc7:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-juxxc7:active,.css-juxxc7.Mui-active{color:#263588;background-color:#E4E7FB;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-juxxc7:active,.css-juxxc7.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-juxxc7:focus,.css-juxxc7.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-juxxc7.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-juxxc7>svg:first-child{height:1em;width:1em;}.css-3tbxyb{position:relative;gap:12px;margin-top:16px;}.css-lqmrhz{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:baseline;-webkit-box-align:baseline;-ms-flex-align:baseline;align-items:baseline;-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end;position:relative;gap:12px;margin-top:16px;}.css-1pmssyl{margin:0;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:400;font-size:0.875rem;line-height:1.57143;letter-spacing:0;}Was this helpful?.css-v9we1n{grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:600px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:960px){.css-v9we1n{grid-template-columns:none;}}.css-1wl17lu{display:grid;gap:0px;grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:repeat(2, minmax(0,1fr));}}@media (min-width:0px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:none;}}.css-1c1xxt8{padding:0px 8px;}.css-1c1xxt8:focus{box-shadow:none;}.css-kea6zk{padding:0px 8px;}.css-kea6zk:focus{box-shadow:none;}.css-dtxjki{font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-dtxjki:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-dtxjki:hover{background-color:transparent;}}.css-dtxjki.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-dtxjki:hover{box-shadow:none;}.css-dtxjki.Mui-focusVisible{box-shadow:none;}.css-dtxjki:active{box-shadow:none;}.css-dtxjki.Mui-disabled{box-shadow:none;}.css-dtxjki.Mui-disabled,.css-dtxjki:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-dtxjki:focus,.css-dtxjki.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-dtxjki:hover,.css-dtxjki.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-dtxjki:active,.css-dtxjki.Mui-active{color:#263588;background-color:#E4E7FB;}.css-dtxjki:focus{box-shadow:none;}.css-1spzyzx{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-1spzyzx::-moz-focus-inner{border-style:none;}.css-1spzyzx.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1spzyzx{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1spzyzx:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-1spzyzx:hover{background-color:transparent;}}.css-1spzyzx.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-1spzyzx:hover{box-shadow:none;}.css-1spzyzx.Mui-focusVisible{box-shadow:none;}.css-1spzyzx:active{box-shadow:none;}.css-1spzyzx.Mui-disabled{box-shadow:none;}.css-1spzyzx.Mui-disabled,.css-1spzyzx:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1spzyzx:focus,.css-1spzyzx.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1spzyzx:hover,.css-1spzyzx.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1spzyzx:active,.css-1spzyzx.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1spzyzx:focus{box-shadow:none;}Yes /No 
+          
+        
+      
+    
+  
+api.authentication.challengeWithAny(factors)
+  
+    Trigger an MFA challenge and allow the user to select their preferred factor from the supplied list. This method presents a factor picker to the user rather than a specific challenge, in accordance with the following conditions: 
+  
+  
+    
+      If two or more factors are specified, a factor picker displays to the user.
+      If the user has only enrolled in one of the specified factors (or only one factor is specified), the factor picker is skipped.
+       If the user has not enrolled in any of the specified factors, the challenge command fails.
+  
+  
+  
+    Note: This method overrides existing policies and rules that enable or disable MFA in a tenant. 
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        factors
+        
+          
+            Array. An array of objects that includes the  type field.  type is a string used to specify an MFA factor the user can choose from when challenged. 
+          
+            Supported values include:
+          
+            otp
+            recovery-code
+            email
+            push-notification
+                
+                    otpFallbackWhen set to false, the user cannot use the OTP fallback option of the push notification factor. 
+                
+            phone
+                
+                    preferredMethod: voice
+                    preferredMethod: sms
+                    preferredMethod: both
+                
+            webauthn-platform
+            webauthn-roaming
+          
+        
+    
+  
+api.authentication.enrollWith(factor, options)
+      
+    Prompt the user to enroll with a specific MFA factor. This method prompts the user to enroll with a default factor, but can optionally allow the user to select a different option if additional factors have been supplied. If the user has already enrolled in all of the supplied factors (including both the default value and any additional factors), the command fails. 
+  
+  
+      Note: This method overrides existing policies and rules that enable or disable MFA in a tenant.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        factor
+        
+          
+            Object. An object containing the type field. type is a string used to specify the default MFA factor the user is prompted to enroll. 
+          
+            Supported values include:
+          
+            otp
+            recovery-code
+            push-notification
+            phone
+               
+                 preferredMethod: voice
+                 preferredMethod: sms
+                 preferredMethod: both
+               
+            webauthn-platform
+            webauthn-roaming
+          
+        
+      
+      
+        options
+        
+          
+            Optional object. An object containing the optional additionalFactors field. 
+          additionalFactors is an array used to specify other factors a user can choose from during enrollment. Supports the same values as the type field. 
+          Example
+          .css-i3pbo{margin-bottom:24px;}.css-1ler0{margin-bottom:24px;}.css-18zbu0o{position:relative;}.css-18zbu0o .show-scroll{max-height:500px;overflow:scroll;}.css-18zbu0o button.copy-button{position:absolute;right:0.5em;top:0.5em;}.css-18zbu0o pre.code-highlight-prism{border:0;}.css-18zbu0o code.code-highlight-prism{color:#FFFFFF;}.css-18zbu0o .token.keyword{color:#B9E0CB;}.css-18zbu0o .token.property,.css-18zbu0o .token.constant,.css-18zbu0o .token.symbol,.css-18zbu0o .token.deleted{color:#B9E0CB;}.css-18zbu0o .token.selector,.css-18zbu0o .token.string,.css-18zbu0o .token.char,.css-18zbu0o .token.builtin,.css-18zbu0o .token.inserted{color:#bcbcff;}.css-18zbu0o .token.boolean,.css-18zbu0o .token.number{color:#bcbcff;}.css-18zbu0o .token.class-name,.css-18zbu0o .token.attr-name,.css-18zbu0o .token .punctuation{color:#DCD1FC;}.css-18zbu0o .token.attr-value,.css-18zbu0o .token.tag,.css-18zbu0o .token.script .punctuation,.css-18zbu0o .token.atrule{color:#bcbcff;}.css-18zbu0o .token.function{color:#FFFFFF;}.css-18zbu0o .token.regex,.css-18zbu0o .token.important{color:#DCD1FC;}.css-18zbu0o .token.namespace{opacity:1;}.css-18zbu0o .line-highlight{background:rgba(85, 85, 85, 0.2);border-bottom:0.5px solid rgba(255, 255, 255, 0.25);border-top:0.5px solid rgba(255, 255, 255, 0.25);}.css-18zbu0o .line-numbers{font-family:Roboto Mono,Menlo,Monaco,Consolas,Courier New,monospace;font-size:0.875rem;line-height:1.25rem;letter-spacing:0.15px;font-weight:400;-webkit-font-smoothing:subpixel-antialiased;}.css-18zbu0o .line-numbers .line-numbers-rows{border-right:none;color:#5a5f66;}.css-18zbu0o :not(pre)>code[class*="language-"],.css-18zbu0o pre[class*="language-"]{background:#1E1E1E;}.css-18zbu0o pre[class*="language-"]{margin:0;}.css-18zbu0o .token.package:before,.css-18zbu0o .token.package:after{display:none;}.css-18zbu0o .token.package{background:none;border:none;}api.authentication.enrollWith({
+  type: 'otp'
+}, {
+  additionalFactors: [{
+    type: 'push-notification'
+  }, {
+    type: 'phone'
+  }]
+}).css-re1tye{color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6{padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6:focus,.css-1brrap6.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1brrap6.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1brrap6>svg:first-child{height:1em;width:1em;}.css-1t8h97s{text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1t8h97s:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-1t8h97s.Mui-disabled,.css-1t8h97s:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-1t8h97s:focus,.css-1t8h97s.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1t8h97s.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1t8h97s>svg:first-child{height:1em;width:1em;}.css-juxxc7{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-juxxc7::-moz-focus-inner{border-style:none;}.css-juxxc7.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-juxxc7{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-juxxc7:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-juxxc7.Mui-disabled,.css-juxxc7:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-juxxc7:active,.css-juxxc7.Mui-active{color:#263588;background-color:#E4E7FB;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-juxxc7:active,.css-juxxc7.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-juxxc7:focus,.css-juxxc7.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-juxxc7.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-juxxc7>svg:first-child{height:1em;width:1em;}.css-3tbxyb{position:relative;gap:12px;margin-top:16px;}.css-lqmrhz{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:baseline;-webkit-box-align:baseline;-ms-flex-align:baseline;align-items:baseline;-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end;position:relative;gap:12px;margin-top:16px;}.css-1pmssyl{margin:0;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:400;font-size:0.875rem;line-height:1.57143;letter-spacing:0;}Was this helpful?.css-v9we1n{grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:600px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:960px){.css-v9we1n{grid-template-columns:none;}}.css-1wl17lu{display:grid;gap:0px;grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:repeat(2, minmax(0,1fr));}}@media (min-width:0px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:none;}}.css-1c1xxt8{padding:0px 8px;}.css-1c1xxt8:focus{box-shadow:none;}.css-kea6zk{padding:0px 8px;}.css-kea6zk:focus{box-shadow:none;}.css-dtxjki{font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-dtxjki:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-dtxjki:hover{background-color:transparent;}}.css-dtxjki.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-dtxjki:hover{box-shadow:none;}.css-dtxjki.Mui-focusVisible{box-shadow:none;}.css-dtxjki:active{box-shadow:none;}.css-dtxjki.Mui-disabled{box-shadow:none;}.css-dtxjki.Mui-disabled,.css-dtxjki:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-dtxjki:focus,.css-dtxjki.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-dtxjki:hover,.css-dtxjki.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-dtxjki:active,.css-dtxjki.Mui-active{color:#263588;background-color:#E4E7FB;}.css-dtxjki:focus{box-shadow:none;}.css-1spzyzx{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-1spzyzx::-moz-focus-inner{border-style:none;}.css-1spzyzx.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1spzyzx{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1spzyzx:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-1spzyzx:hover{background-color:transparent;}}.css-1spzyzx.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-1spzyzx:hover{box-shadow:none;}.css-1spzyzx.Mui-focusVisible{box-shadow:none;}.css-1spzyzx:active{box-shadow:none;}.css-1spzyzx.Mui-disabled{box-shadow:none;}.css-1spzyzx.Mui-disabled,.css-1spzyzx:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1spzyzx:focus,.css-1spzyzx.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1spzyzx:hover,.css-1spzyzx.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1spzyzx:active,.css-1spzyzx.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1spzyzx:focus{box-shadow:none;}Yes /No 
+          
+          
+          Example
+          .css-i3pbo{margin-bottom:24px;}.css-1ler0{margin-bottom:24px;}.css-18zbu0o{position:relative;}.css-18zbu0o .show-scroll{max-height:500px;overflow:scroll;}.css-18zbu0o button.copy-button{position:absolute;right:0.5em;top:0.5em;}.css-18zbu0o pre.code-highlight-prism{border:0;}.css-18zbu0o code.code-highlight-prism{color:#FFFFFF;}.css-18zbu0o .token.keyword{color:#B9E0CB;}.css-18zbu0o .token.property,.css-18zbu0o .token.constant,.css-18zbu0o .token.symbol,.css-18zbu0o .token.deleted{color:#B9E0CB;}.css-18zbu0o .token.selector,.css-18zbu0o .token.string,.css-18zbu0o .token.char,.css-18zbu0o .token.builtin,.css-18zbu0o .token.inserted{color:#bcbcff;}.css-18zbu0o .token.boolean,.css-18zbu0o .token.number{color:#bcbcff;}.css-18zbu0o .token.class-name,.css-18zbu0o .token.attr-name,.css-18zbu0o .token .punctuation{color:#DCD1FC;}.css-18zbu0o .token.attr-value,.css-18zbu0o .token.tag,.css-18zbu0o .token.script .punctuation,.css-18zbu0o .token.atrule{color:#bcbcff;}.css-18zbu0o .token.function{color:#FFFFFF;}.css-18zbu0o .token.regex,.css-18zbu0o .token.important{color:#DCD1FC;}.css-18zbu0o .token.namespace{opacity:1;}.css-18zbu0o .line-highlight{background:rgba(85, 85, 85, 0.2);border-bottom:0.5px solid rgba(255, 255, 255, 0.25);border-top:0.5px solid rgba(255, 255, 255, 0.25);}.css-18zbu0o .line-numbers{font-family:Roboto Mono,Menlo,Monaco,Consolas,Courier New,monospace;font-size:0.875rem;line-height:1.25rem;letter-spacing:0.15px;font-weight:400;-webkit-font-smoothing:subpixel-antialiased;}.css-18zbu0o .line-numbers .line-numbers-rows{border-right:none;color:#5a5f66;}.css-18zbu0o :not(pre)>code[class*="language-"],.css-18zbu0o pre[class*="language-"]{background:#1E1E1E;}.css-18zbu0o pre[class*="language-"]{margin:0;}.css-18zbu0o .token.package:before,.css-18zbu0o .token.package:after{display:none;}.css-18zbu0o .token.package{background:none;border:none;}api.authentication.enrollWith({
+  type: 'otp'
+}, {
+  additionalFactors: [{
+    type: 'push-notification'
+  }, {
+    type: 'phone'
+  }]
+}).css-re1tye{color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6{padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6:focus,.css-1brrap6.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1brrap6.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1brrap6>svg:first-child{height:1em;width:1em;}.css-1t8h97s{text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1t8h97s:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-1t8h97s.Mui-disabled,.css-1t8h97s:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-1t8h97s:focus,.css-1t8h97s.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1t8h97s.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1t8h97s>svg:first-child{height:1em;width:1em;}.css-juxxc7{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-juxxc7::-moz-focus-inner{border-style:none;}.css-juxxc7.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-juxxc7{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-juxxc7:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-juxxc7.Mui-disabled,.css-juxxc7:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-juxxc7:active,.css-juxxc7.Mui-active{color:#263588;background-color:#E4E7FB;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-juxxc7:active,.css-juxxc7.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-juxxc7:focus,.css-juxxc7.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-juxxc7.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-juxxc7>svg:first-child{height:1em;width:1em;}.css-3tbxyb{position:relative;gap:12px;margin-top:16px;}.css-lqmrhz{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:baseline;-webkit-box-align:baseline;-ms-flex-align:baseline;align-items:baseline;-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end;position:relative;gap:12px;margin-top:16px;}.css-1pmssyl{margin:0;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:400;font-size:0.875rem;line-height:1.57143;letter-spacing:0;}Was this helpful?.css-v9we1n{grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:600px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:960px){.css-v9we1n{grid-template-columns:none;}}.css-1wl17lu{display:grid;gap:0px;grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:repeat(2, minmax(0,1fr));}}@media (min-width:0px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:none;}}.css-1c1xxt8{padding:0px 8px;}.css-1c1xxt8:focus{box-shadow:none;}.css-kea6zk{padding:0px 8px;}.css-kea6zk:focus{box-shadow:none;}.css-dtxjki{font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-dtxjki:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-dtxjki:hover{background-color:transparent;}}.css-dtxjki.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-dtxjki:hover{box-shadow:none;}.css-dtxjki.Mui-focusVisible{box-shadow:none;}.css-dtxjki:active{box-shadow:none;}.css-dtxjki.Mui-disabled{box-shadow:none;}.css-dtxjki.Mui-disabled,.css-dtxjki:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-dtxjki:focus,.css-dtxjki.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-dtxjki:hover,.css-dtxjki.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-dtxjki:active,.css-dtxjki.Mui-active{color:#263588;background-color:#E4E7FB;}.css-dtxjki:focus{box-shadow:none;}.css-1spzyzx{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-1spzyzx::-moz-focus-inner{border-style:none;}.css-1spzyzx.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1spzyzx{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1spzyzx:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-1spzyzx:hover{background-color:transparent;}}.css-1spzyzx.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-1spzyzx:hover{box-shadow:none;}.css-1spzyzx.Mui-focusVisible{box-shadow:none;}.css-1spzyzx:active{box-shadow:none;}.css-1spzyzx.Mui-disabled{box-shadow:none;}.css-1spzyzx.Mui-disabled,.css-1spzyzx:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1spzyzx:focus,.css-1spzyzx.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1spzyzx:hover,.css-1spzyzx.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1spzyzx:active,.css-1spzyzx.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1spzyzx:focus{box-shadow:none;}Yes /No 
+          
+        
+      
+    
+  
+ api.authentication.enrollWithAny(factors)
+  
+    Prompt the user to select an MFA factor to enroll in from the supplied list. This method presents a factor picker to the user rather than a default factor prompt, in accordance with the following conditions: 
+  
+  
+    
+      If two or more factors are specified, the factor picker displays to the user.
+      If the user has already enrolled in all supplied factors except one, the factor picker is skipped, and the user is prompted to enroll in the remaining factor.
+       If the user has already enrolled in all of the supplied factors, the command fails.
+  
+  
+  
+      Note: This method overrides existing policies and rules that enable or disable MFA in a tenant.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        factors
+        
+          
+            Array. An array of objects that includes the  type field.  type is a string used to specify the default MFA factor the user is prompted to enroll. 
+          
+            Supported values include:
+          
+            otp
+            recovery-code
+            push-notification
+            phone
+                 
+                    preferredMethod: voice
+                    preferredMethod: sms
+                    preferredMethod: both
+                
+            webauthn-platform
+            webauthn-roaming
+          
+        
+    
+  
+api.authentication.setPrimaryUser(primary_user_id)
+  
+    Change the primary user for the login transaction.
+In scenarios that require linking users, the user identity used to initiate the login may no longer exist as a discrete user. That identity may now be a secondary identity of an existing user. In such situations, the setPrimaryUser() function can be used to indicate that the subject of the login should be changed.
+  
+  Important:
+    
+       Insecurely linking accounts can allow malicious actors to access legitimate user accounts, your tenant should request authentication for both accounts before linking occurs.
+      The identity used to authenticate the login must be among the secondary identities of the user referenced by `primary_user_id`. The login will fail and tokens will not be issued otherwise.
+  
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        primary_user_id
+        
+          
+            String. The user ID of the user for whom tokens should be issued (the `sub` claim).
+    
+  
+
+
+  api.cache
+  Store and retrieve data that persists across executions.
+  api.cache.delete(key)
+  
+    Delete a record describing a cached value at the supplied key if it exists.
+  
+  
+    Returns a CacheWriteResult object with  type: "success" if a value was removed from the cache. A failed operation returns type: "error". For errors, the returned object will have a
+    code property that indicates the nature of the failure.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        key
+        
+          String. The key of the record stored in the cache.
+        
+      
+    
+  
+  api.cache.get(key)
+  
+    Retrieve a record describing a cached value at the supplied
+    key, if it exists. If a record is found, the cached value can
+    be found at the value property of the returned object.
+  
+  
+    Returns a cache record if an item is found in the cache for the supplied
+    key. Cache records are objects with a
+    value property holding the cached value as well as an
+    expires_at property indicating the maximum expiry of
+    the record in milliseconds since the Unix epoch.
+  
+  
+    Important:
+    This cache is designed for short-lived, ephemeral data. Items may not be
+    available in later transactions even if they are within their supplied their
+    lifetime.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        key
+        
+          String. The key of the record stored in the cache.
+        
+      
+    
+  
+  api.cache.set(key, value, [options])
+  Store or update a string value in the cache at the specified key.
+  
+    Values stored in this cache are scoped to the Trigger in which they are set.
+    They are subject to the
+    Actions Cache Limits.
+  
+  
+    Values stored in this way will have lifetimes of up to the specified
+    ttl or expires_at values. If no lifetime is
+    specified, a default lifetime of 15 minutes will be used. Lifetimes may
+    not exceed the maximum duration listed at
+    Actions Cache Limits.
+  
+  
+  Returns CacheWriteSuccess if the values are stored successfully. Otherwise, you will receive CacheWriteError.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        key
+        
+          String. The key of the record stored in the cache.
+        
+      
+      
+        value
+        
+          String. The value of the record to be stored.
+        
+      
+      
+        options
+        
+          Optional object. Options for adjusting cache behavior.
+        
+      
+      
+        options.expires_at
+        
+          
+            Optional number. The absolute expiry time in milliseconds
+            since the unix epoch. While cached records may be evicted earlier,
+            they will never remain beyond the the supplied
+            expires_at.
+          
+          
+            Note: This value should not be supplied if a value was also
+            provided for ttl. If both options are supplied, the
+            earlier expiry of the two will be used.
+          
+        
+      
+      
+        options.ttl
+        
+          
+            Optional number. The time-to-live value of this cache entry
+            in milliseconds. While cached values may be evicted earlier, they
+            will never remain beyond the the supplied ttl.
+          
+          
+            Note: This value should not be supplied if a value was also
+            provided for expires_at. If both options are supplied,
+            the earlier expiry of the two will be used.
+          
+        
+      
+    
+  
+
+
+  api.idToken
+  Request changes to the ID token being issued.
+  api.idToken.setCustomClaim(name, value)
+  
+    Set a custom claim on the ID token that will be issued upon completion of
+    the login flow.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        name
+        
+          
+            String. Name of the claim (note that this may need to be a
+            fully-qualified URL).
+          
+        
+      
+      
+        value
+        
+          Any value. The value of the claim.
+        
+      
+    
+  
+
+
+  api.multifactor
+  
+    Set the requirement for multifactor authentication on the login attempt.
+  
+  api.multifactor.enable(provider, options)
+  
+    Enable multifactor authentication for this login flow. When enabled, users
+    must complete the configured multifactor challenge. The actual multifactor
+    challenge will be deferred to the end of the login flow.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        provider
+        
+          
+            String. The name of the multifactor provider to use or the
+            value any to use any of the configured providers.
+          
+          Supported values include:
+          
+            any Use any of the configured challenges.
+            duo Use the Duo multifactor provider.
+            
+              google-authenticator Use the Google Authenticator
+              provider.
+            
+            guardian Use the Guardian provider.
+            none Use none of the configured challenges to prevent the MFA flow from triggering.
+          
+        
+      
+      
+        options
+        
+          
+            Optional object. Additional options for enabling
+            multifactor challenges.
+          
+        
+      
+      
+        options.allowRememberBrowser
+        
+          
+            Optional boolean. When provider is set to google-authenticator or duo, the user is prompted for MFA once every 30 days. When provider is set to guardian, the MFA prompt displays the enrollment checkbox for users to choose whether or not to enroll. Defaults to false. To learn more, read Customize Multi-Factor Authentication Pages 
+          
+        
+      
+      
+        options.providerOptions
+        
+          
+            Optional object. Additional options to configure the
+            challenge, only available for the duo provider.
+          
+          Supported options include:
+          
+            
+              host String. This is the API hostname value
+              from your Duo account.
+            
+            
+              ikey String. This is the Client ID
+              (previously Integration key) value from your Duo account.
+            
+            
+              skey String. This is the Client secret
+              (previously Secret key) value from your Duo account.
+            
+            
+              username Optional string. Use some attribute
+              of the profile as the username in DuoSecurity. This is also useful
+              if you already have your users enrolled in Duo.
+            
+          
+        
+      
+    
+  
+
+
+  api.redirect
+  api.redirect.encodeToken(options)
+    
+      Create a session token suitable for using as a query string parameter
+      redirect target (via sendUserTo) that contains data whose
+      authenticity must be provable by the target endpoint. The target endpoint
+      can verify the authenticity and integrity of the data by checking the
+      JWT's signature using a shared secret.
+    
+    Returns a JWT string.
+    
+      
+        
+          Parameter
+          Description
+        
+      
+      
+        
+          options
+          
+            
+              Options. Configure how sensitive data is encoded into the
+              query parameters of the resulting url.
+            
+          
+        
+        
+          options.expiresInSeconds
+          
+            
+              Number. Number of seconds before this token will expire
+              (defaults to 900).
+            
+          
+        
+        
+          options.payload
+          
+            
+              Options. The data intended to be passed to the target of
+              the redirect and whose authenticity and integrity must be
+              provable.
+            
+          
+        
+        
+          options.secret
+          
+            
+              String. A secret that will be used to sign a JWT that is
+              shared with the redirect target. The secret value should be stored
+              as a secret and retrieved using
+              event.secrets['SECRET_NAME'].
+            
+          
+        
+      
+    
+  
+  
+    api.redirect.sendUserTo(url, options)
+    
+      Trigger a browser redirect to the target `url` immediately after this
+      action completes.
+    
+    Returns a reference to the api object.
+    
+      
+        
+          Parameter
+          Description
+        
+      
+      
+        
+          url
+          
+            String. The url in which to redirect the user.
+          
+        
+        
+          options
+          
+            
+              Options. An object representing additional query string
+              parameters that should be appended to the redirect URL.
+            
+          
+        
+        
+          options.query
+          
+            
+              Options. Additional query string parameters that should
+              be appended to the redirect URL.
+            
+          
+        
+      
+    
+  
+ 
+    api.redirect.validateToken(options)
+    
+      Retrieve the data encoded in a JWT token passed to the
+      /continue endpoint while verifying the authenticity and
+      integrity of that data.
+    
+    Returns payload of the JWT token.
+    
+      
+        
+          Parameter
+          Description
+        
+      
+      
+        
+          options
+          
+            
+              Options. Options for retrieving the data encoded in a JWT
+              token passed to the /continue endpoint following a
+              redirect.
+            
+          
+        
+        
+          options.secret
+          
+            String. Secret used to encode the token.
+          
+        
+        
+          options.tokenParameterName
+          
+            
+              String. The name of the query or body parameter that was
+              sent to the /continue endpoint. (defaults to
+              session_token
+            
+          
+        
+      
+    
+  
+  
+    api.refreshToken
+Manage refresh tokens, such as by revoking a refresh token.
+api.refreshToken.revoke(reason)
+
+  Reject the current token exchange and revoke the refresh token. This will
+  prevent the user from completing the flow and no further Actions are
+  executed.
+
+Returns a reference to the api object.
+
+  
+    
+      Parameter
+      Description
+    
+  
+  
+    
+      reason
+      
+        
+          String. A human-readable explanation for rejecting the
+          refresh token. This is sent as error_description to the application
+          that initiated the request.
+        
+      
+    
+  
+
+api.refreshToken.setExpiresAt(absolute)
+
+  Set a new absolute expiration date for a specified refresh token. 
+
+Returns a reference to the api object.
+
+  
+    
+      Parameter
+      Description
+    
+  
+  
+    
+      absolute
+      
+        
+          Number. The absolute expiry time in milliseconds since the unix epoch. 
+        
+      
+    
+  
+
+api.refreshToken.setIdleExpiresAt(idle)
+
+  Set a new inactivity expiration date  for a specified refresh token.  
+
+Returns a reference to the api object.
+
+  
+    
+      Parameter
+      Description
+    
+  
+  
+    
+      idle
+      
+        
+          Number. The inactivity expiry time in milliseconds since the unix epoch.
+            This method sets the refresh token inactivity timeout for the current interaction. If the method is not reapplied, subsequent successful interactions will override the inactivity timeout using the refresh token inactivity timeout settings. 
+        
+      
+    
+  
+
+  
+  
+    api.rules
+    
+      Get information about the Rules that have run during the current transaction.
+    
+    api.rules.wasExecuted(ruleId)
+    Check whether a specific Rule has been executed prior to this Action in the current transaction. This can be used to avoid running logic that has been duplicated from that Rule into this Action during migration to Actions.
+This method returns true when the Rule with the provided ID has been executed in this transaction and false when it has not..
+
+
+
+Parameter
+Description
+
+
+
+
+ruleId
+
+
+String. The Rule ID to check.
+
+
+
+
+
+  
+
+
+  api.samlResponse
+  Modify the SAML Response for the user that is logging in.
+  api.samlResponse.setAttribute(attribute, value)
+  Set a custom SAML attribute.
+  
+    A failed operation throws an Error. For errors, the returned
+    object has a message that indicates the nature of the failure.
+  
+  
+    The value must be of type SAMLValue, which can be
+    string | number | boolean | null | Array
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        attribute
+        
+          String. The SAML attribute to be set.
+        
+      
+      
+        value
+        
+          
+            SAMLValue. The value of the SAML assertion. This may be set
+            to null to remove the attribute property.
+          
+        
+      
+    
+  
+  api.samlResponse.setAudience(audience)
+  
+    Alter the audience of the SAML Response. Default is the issuer on
+    SAMLRequest.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        audience
+        
+          String. The SAML audience to be set.
+        
+      
+    
+  
+  api.samlResponse.setIssuer(issuer)
+  
+    Alter the issuer of the SAML Response. Default issuer is urn:TENANT.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        issuer
+        
+          String. The SAML issuer to be set.
+        
+      
+    
+  
+  api.samlResponse.setEncryptionPublicKey(publicKey)
+  
+    Optionally specify a public key used to encrypt the SAML assertion. The
+    public key should be obtained from the service provider. Both the public key
+    and certificate must be specified.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        publicKey
+        
+          String. The public key to be set.
+        
+      
+    
+  
+  api.samlResponse.setRecipient(recipient)
+  
+    Alter the recipient of the SAML assertion (SubjectConfirmationData). Default
+    is AssertionConsumerUrl on SAMLRequest or callback
+    URL if no SAMLRequest was sent.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        recipient
+        
+          String. The SAML recipient to be set.
+        
+      
+    
+  
+  api.samlResponse.setCreateUpnClaim(createUpnClaim)
+  
+    Dictates if a UPN claim should be created. Default is true.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        createUpnClaim
+        
+          Boolean Toggle to create a UPN claim.
+        
+      
+    
+  
+  
+    api.samlResponse.setPassthroughClaimsWithNoMapping(passthroughClaimsWithNoMapping)
+  
+  
+    If true (default), for each claim that is not mapped to the
+    common profile, Auth0 passes through those in the output assertion. If
+    false, those claims won't be mapped.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        passthroughClaimsWithNoMapping
+        
+          
+            Boolean Should claims should be mapped to the output
+            assertion.
+          
+        
+      
+    
+  
+  
+    api.samlResponse.setMapUnknownClaimsAsIs(mapUnknownClaimsAsIs)
+  
+  
+    If passthroughClaimsWithNoMapping is true and this
+    is false (default), for each claim not mapped to the common
+    profile Auth0 adds a prefix http://schema.auth0.com. If true,
+    it will pass through the claim as-is.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        mapUnknownClaimsAsIs
+        
+          Boolean Should claims should be mapped as-is.
+        
+      
+    
+  
+  api.samlResponse.setMapIdentities(mapIdentities)
+  
+    If true (default), this adds more information in the token such
+    as the provider (Google, ADFS, AD, etc.) and the access token, if available
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        mapIdentities
+        
+          Boolean Should identities be mapped.
+        
+      
+    
+  
+  api.samlResponse.setDestination(destination)
+  
+    Destination of the SAML response. If not specified, it will be
+    AssertionConsumerUrl of SAMLRequest or callback URL if there was no
+    SAMLRequest.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        destination
+        
+          String Destination of the SAML response.
+        
+      
+    
+  
+  api.samlResponse.setRelayState(relayState)
+  
+    Alter the RelayState of the SAML response. Default is RelayState on SAMLRequest.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        relayState
+        
+          String RelayState of the SAML response.
+        
+      
+    
+  
+  api.samlResponse.setLifetimeInSeconds(lifetimeInSeconds)
+  
+    Expiration of the token in seconds. Default is 3600 seconds (1
+    hour).
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        lifetimeInSeconds
+        
+          Number Expiration of the token in seconds.
+        
+      
+    
+  
+  api.samlResponse.setSignResponse(signResponse)
+  
+    Whether or not the SAML response should be signed. By default the SAML
+    assertion will be signed, but not the SAML response. If true,
+    SAML Response will be signed instead of SAML assertion. Default to
+    false.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        signResponse
+        
+          Boolean Should the SAML response be signed.
+        
+      
+    
+  
+  
+    api.samlResponse.setNameIdentifierFormat(nameIdentifierFormat)
+  
+  
+    Sets the name ID format. Default is
+    urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        nameIdentifierFormat
+        
+          String The Name ID Format.
+        
+      
+    
+  
+  
+    api.samlResponse.setNameIdentifierProbes(nameIdentifierProbes)
+  
+Auth0 tries to name each of the attributes of this array in order. If one of
+them has a value, it will use that for the Subject/NameID. The order is:
+  
+    
+      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier
+      (mapped from user_id)
+    
+    
+      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress (mapped
+      from email)
+    
+    
+      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name (mapped from
+      name)
+    
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        nameIdentifierProbes
+        
+          
+            String array An array of attributes to try for the name
+            identifier.
+          
+        
+      
+    
+  
+  
+    api.samlResponse.setAuthnContextClassRef(authnContextClassRef)
+  
+  
+    Default is urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        authnContextClassRef
+        
+          String The AuthnContextClassRef.
+        
+      
+    
+  
+  api.samlResponse.setSigningCert(signingCert)
+  
+    Optionally indicates the public key certificate used to validate SAML
+    requests. If set, SAML requests will be required to be signed. A sample
+    value would be
+    "-----BEGIN
+      CERTIFICATE-----\nMIIC8jCCAdqgAwIBAgIJObB6jmhG0QIEMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNV\n[..all
+      the other lines..]-----END CERTIFICATE-----\n".
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        signingCert
+        
+          
+            String Optional public key certificate used to validate
+            SAML requests.
+          
+        
+      
+    
+  
+  
+    api.samlResponse.setIncludeAttributeNameFormat(includeAttributeNameFormat)
+  
+  
+    When set to true, we infer the NameFormat based on the
+    attribute name. NameFormat values are
+    urn:oasis:names:tc:SAML:2.0:attrname-format:uri,
+    urn:oasis:names:tc:SAML:2.0:attrname-format:basic and
+    urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified.
+  
+  
+    If set to false, the attribute NameFormat is not set in the
+    assertion. Default is true.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        includeAttributeNameFormat
+        
+          
+            Boolean Should NameFormat be inferred based on the attribute
+            name.
+          
+        
+      
+    
+  
+  api.samlResponse.setTypedAttributes(typedAttributes)
+  
+    When set to true, we infer the xs:type of the
+    element. Types are xs:string, xs:boolean,
+    xs:double and xs:anyType. When set to
+    false all xs:type are xs:anyType.
+    Default is true.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        typedAttributes
+        
+          BooleanShould xs:type be inferred.
+        
+      
+    
+  
+  api.samlResponse.setEncryptionCert(encryptionCert)
+  
+    Optionally specify a certificate used to encrypt the SAML assertion. The
+    certificate should be obtained from the service provider. Both the
+    certificate and public key must be specified. A sample value would be
+    "-----BEGIN
+      CERTIFICATE-----\nMIIC8jCCAdqgAwIBAgIJObB6jmhG0QIEMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNV\n[..all
+      the other lines..]-----END CERTIFICATE-----\n".
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        encryptionCert
+        
+          
+            String Optional certificate to encrypt the SAML assertion.
+          
+        
+      
+    
+  
+  api.samlResponse.setCert(cert)
+  
+    By default, Auth0 will use the private/public key pair assigned to your
+    tenant to sign SAML responses or assertions. For very specific scenarios,
+    you might wish to provide your own certificate and private key.
+  
+  Both the certificate and private key must be specified.
+  
+    A sample value would be
+    "-----BEGIN
+      CERTIFICATE-----\nMIIC8jCCAdqgAwIBAgIJObB6jmhG0QIEMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNV\n[..all
+      the other lines..]-----END CERTIFICATE-----\n".
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        cert
+        
+          
+            StringOptional certificate to sign the SAML responses or
+            assertions.
+          
+        
+      
+    
+  
+  api.samlResponse.setKey(key)
+  
+    By default, Auth0 will use the private/public key pair assigned to your
+    tenant to sign SAML responses or assertions. For very specific scenarios,
+    you might wish to provide your own certificate and private key.
+  
+  
+    Since this private key is sensitive, we recommend using the
+    Add Secret functionality of Actions. See here for more details: Write
+    Your First Action
+  
+  Both the certificate and private key must be specified.
+  
+    A sample value would be
+    "-----BEGIN PRIVATE
+      KEY-----\nnMIIC8jCCAdqgAwIBAgIJObB6jmhG0QIEMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNV\n[..all
+      the other lines..]-----END PRIVATE KEY-----\n".
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        key
+        
+          
+            StringOptional private key to sign the SAML responses or
+            assertions.
+          
+        
+      
+    
+  
+  
+    api.samlResponse.setSignatureAlgorithm(signatureAlgorithm)
+  
+  Deprecated: Default is rsa-sha256
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        signatureAlgorithm
+        
+          
+            rsa-sha256 | rsa-sha1.
+            rsa-sha1 should not be used. This is insecure.
+          
+        
+      
+    
+  
+  api.samlResponse.setDigestAlgorithm(digestAlgorithm)
+  Deprecated: Default is sha256
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        digestAlgorithm
+        
+          
+            sha256 | sha1.
+            rsa-sha1 should not be used. This is insecure.
+          
+        
+      
+    
+  
+  api.session
+  Manage sessions, such as by revoking a user session.
+  api.session.revoke(reason, options)
+  
+    Reject the current transaction, revoke the session, and delete associated
+    refresh tokens. This will prevent the user from completing the flow and no
+    further Actions are executed.
+  
+  
+    Note This method initiates a session-revoked
+    OIDC Back-Channel Logout Initiator
+    
+    to logout users from all applications bound to the current session. Deletion
+    of session associated refresh tokens is an asynchronous operation.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        reason
+        
+          
+            String. A human-readable explanation for rejecting the
+            login. This is sent as error_description to the application that
+            initiated the request.
+          
+        
+      
+      
+        options
+        
+          
+            preserveRefreshTokens. is a boolean used to specify if
+            revoke will preserve the refresh tokens bound to the session with
+            the same session_id. Defaults to false.
+          
+          Example
+          .css-i3pbo{margin-bottom:24px;}.css-1ler0{margin-bottom:24px;}.css-18zbu0o{position:relative;}.css-18zbu0o .show-scroll{max-height:500px;overflow:scroll;}.css-18zbu0o button.copy-button{position:absolute;right:0.5em;top:0.5em;}.css-18zbu0o pre.code-highlight-prism{border:0;}.css-18zbu0o code.code-highlight-prism{color:#FFFFFF;}.css-18zbu0o .token.keyword{color:#B9E0CB;}.css-18zbu0o .token.property,.css-18zbu0o .token.constant,.css-18zbu0o .token.symbol,.css-18zbu0o .token.deleted{color:#B9E0CB;}.css-18zbu0o .token.selector,.css-18zbu0o .token.string,.css-18zbu0o .token.char,.css-18zbu0o .token.builtin,.css-18zbu0o .token.inserted{color:#bcbcff;}.css-18zbu0o .token.boolean,.css-18zbu0o .token.number{color:#bcbcff;}.css-18zbu0o .token.class-name,.css-18zbu0o .token.attr-name,.css-18zbu0o .token .punctuation{color:#DCD1FC;}.css-18zbu0o .token.attr-value,.css-18zbu0o .token.tag,.css-18zbu0o .token.script .punctuation,.css-18zbu0o .token.atrule{color:#bcbcff;}.css-18zbu0o .token.function{color:#FFFFFF;}.css-18zbu0o .token.regex,.css-18zbu0o .token.important{color:#DCD1FC;}.css-18zbu0o .token.namespace{opacity:1;}.css-18zbu0o .line-highlight{background:rgba(85, 85, 85, 0.2);border-bottom:0.5px solid rgba(255, 255, 255, 0.25);border-top:0.5px solid rgba(255, 255, 255, 0.25);}.css-18zbu0o .line-numbers{font-family:Roboto Mono,Menlo,Monaco,Consolas,Courier New,monospace;font-size:0.875rem;line-height:1.25rem;letter-spacing:0.15px;font-weight:400;-webkit-font-smoothing:subpixel-antialiased;}.css-18zbu0o .line-numbers .line-numbers-rows{border-right:none;color:#5a5f66;}.css-18zbu0o :not(pre)>code[class*="language-"],.css-18zbu0o pre[class*="language-"]{background:#1E1E1E;}.css-18zbu0o pre[class*="language-"]{margin:0;}.css-18zbu0o .token.package:before,.css-18zbu0o .token.package:after{display:none;}.css-18zbu0o .token.package{background:none;border:none;}api.session.revoke('reason', 
+             {'preserveRefreshTokens':true} );.css-re1tye{color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6{padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1brrap6:focus,.css-1brrap6.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1brrap6.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1brrap6>svg:first-child{height:1em;width:1em;}.css-1t8h97s{text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-1t8h97s:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-1t8h97s:hover{background-color:transparent;}}.css-1t8h97s.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-1t8h97s.Mui-disabled,.css-1t8h97s:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1t8h97s:hover,.css-1t8h97s.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-1t8h97s:active,.css-1t8h97s.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-1t8h97s:focus,.css-1t8h97s.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1t8h97s.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-1t8h97s>svg:first-child{height:1em;width:1em;}.css-juxxc7{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#3F59E4;font-size:1rem;height:2.125rem;width:2.125rem;color:#3F59E4;border-style:solid;border-width:1px;color:#3F59E4;border-color:#3F59E4;padding:0;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#BCBAFF;border:none;background-color:none;background:none;}.css-juxxc7::-moz-focus-inner{border-style:none;}.css-juxxc7.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-juxxc7{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-juxxc7:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7:hover{background-color:rgba(63, 89, 228, 0.04);}@media (hover: none){.css-juxxc7:hover{background-color:transparent;}}.css-juxxc7.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-juxxc7.Mui-disabled,.css-juxxc7:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-juxxc7:active,.css-juxxc7.Mui-active{color:#263588;background-color:#E4E7FB;}.css-juxxc7:hover,.css-juxxc7.Mui-hover{background-color:#EEF0FD;border-color:#3F59E4;}.css-juxxc7:active,.css-juxxc7.Mui-active{background-color:#E4E7FB;border-color:#3F59E4;}.css-juxxc7:focus,.css-juxxc7.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-juxxc7.Mui-disabled{background-color:#F1F1F1;color:#686868;}.css-juxxc7>svg:first-child{height:1em;width:1em;}.css-3tbxyb{position:relative;gap:12px;margin-top:16px;}.css-lqmrhz{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:baseline;-webkit-box-align:baseline;-ms-flex-align:baseline;align-items:baseline;-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end;position:relative;gap:12px;margin-top:16px;}.css-1pmssyl{margin:0;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:400;font-size:0.875rem;line-height:1.57143;letter-spacing:0;}Was this helpful?.css-v9we1n{grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:600px){.css-v9we1n{grid-template-columns:none;}}@media (min-width:960px){.css-v9we1n{grid-template-columns:none;}}.css-1wl17lu{display:grid;gap:0px;grid-template-columns:none;grid-auto-columns:min-content;grid-auto-flow:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}@media (min-width:0px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:minmax(0,1fr);}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:repeat(2, minmax(0,1fr));}}@media (min-width:0px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:600px){.css-1wl17lu{grid-template-columns:none;}}@media (min-width:960px){.css-1wl17lu{grid-template-columns:none;}}.css-1c1xxt8{padding:0px 8px;}.css-1c1xxt8:focus{box-shadow:none;}.css-kea6zk{padding:0px 8px;}.css-kea6zk:focus{box-shadow:none;}.css-dtxjki{font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-dtxjki:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-dtxjki:hover{background-color:transparent;}}.css-dtxjki.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-dtxjki:hover{box-shadow:none;}.css-dtxjki.Mui-focusVisible{box-shadow:none;}.css-dtxjki:active{box-shadow:none;}.css-dtxjki.Mui-disabled{box-shadow:none;}.css-dtxjki.Mui-disabled,.css-dtxjki:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-dtxjki:focus,.css-dtxjki.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-dtxjki:hover,.css-dtxjki.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-dtxjki:active,.css-dtxjki.Mui-active{color:#263588;background-color:#E4E7FB;}.css-dtxjki:focus{box-shadow:none;}.css-1spzyzx{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-family:Inter var,Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Helvetica,Arial,sans-serif;font-weight:500;font-size:0.875rem;line-height:1.57143;text-transform:capitalize;letter-spacing:0;min-width:64px;padding:6px 16px;border-radius:4px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;padding:6px 12px;color:#191919;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:nowrap;min-width:unset;font-size:0.875rem;background-color:transparent;color:#191919;padding:5px 12px;padding:3px 10px;color:#3F59E4;padding:0px 8px;}.css-1spzyzx::-moz-focus-inner{border-style:none;}.css-1spzyzx.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1spzyzx{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1spzyzx:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(25, 25, 25, 0.04);}@media (hover: none){.css-1spzyzx:hover{background-color:transparent;}}.css-1spzyzx.Mui-disabled{color:rgba(0, 0, 0, 0.26);}.css-1spzyzx:hover{box-shadow:none;}.css-1spzyzx.Mui-focusVisible{box-shadow:none;}.css-1spzyzx:active{box-shadow:none;}.css-1spzyzx.Mui-disabled{box-shadow:none;}.css-1spzyzx.Mui-disabled,.css-1spzyzx:disabled{color:#8E8E8E;background-color:#E8E8E8;border-color:#D7D7D7;}.css-1spzyzx:focus,.css-1spzyzx.Mui-focusVisible{box-shadow:rgba(63, 89, 228, 0.25) 0px 0px 0px 0.25em;}.css-1spzyzx:hover,.css-1spzyzx.Mui-hover{color:#3449BA;background-color:#EEF0FD;}.css-1spzyzx:active,.css-1spzyzx.Mui-active{color:#263588;background-color:#E4E7FB;}.css-1spzyzx:focus{box-shadow:none;}Yes /No 
+        
+      
+    
+  
+api.session.setCookieMode(options) [Early Access]
+  
+    Modify the session cookie persistence.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        persistent
+        
+          
+            String. The session is stored in a persistent cookie and survives browser restarts, unless manually cleared.
+          
+        
+      
+      
+        non-persistent
+        
+          
+            String. The session is stored in memory only and cleared when the browser or application is closed.
+          
+        
+      
+    
+  
+  api.session.setExpiresAt(absolute)
+  
+    Set a new absolute expiration date for a specified session.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        absolute
+        
+          
+            Number. The absolute expiry time in milliseconds since the unix epoch.
+          
+        
+      
+    
+  
+api.session.setIdleExpiresAt(idle)
+  
+    Set a new inactivity expiration date for a specified session.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        idle
+        
+          
+            Number. The inactivity expiry time in milliseconds since the unix epoch. This method sets the session inactivity timeout for the current interaction. If the method is not reapplied, subsequent successful interactions will override the inactivity timeout using the session inactivity timeout settings. 
+          
+        
+      
+    
+  
+
+
+ api.transaction [Early Access]
+ api.transaction.setMetadata(name, value) [Early Access]
+  
+    Store or update shared data across custom Actions for the duration of a transaction.
+    Transaction metadata allows you to share data between multiple Actions within the same authentication flow. Data stored using this method is available in the event.transaction.metadata object in the current and subsequent Actions and persists throughout the entire transaction lifecycle.
+    They are subject to Transaction Metadata Limits. To learn more, read Actions Limitations . 
+    NOTE: Transaction metadata is only available during the current authentication transaction and is not persisted beyond the completion of the authentication flow. This feature is only currently available on post-login Actions.
+  
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        key
+        
+          
+            String. The key of the metadata property to be set.
+          
+        
+      
+      
+        value
+        
+          
+            String, Number, Boolean. The value of the metadata property. Set to null removes the property.
+          
+        
+      
+    
+  
+
+
+  api.user
+  
+    Make application-specific changes to the metadata of the user that is
+    logging in.
+  
+   
+    
+      
+        NOTE: Invoking these methods does not update the metadata immediately. You
+        can call them several times throughout multiple Actions of the same flow,
+        and the engine will aggregate the changes and update the metadata at
+        once before the flow is completed.
+      
+    
+  
+  api.user.setAppMetadata(name, value)
+  
+    Set application metadata for the user that is logging in. Data stored within
+    app_metadata is not editable by the user.   Note: This trigger makes a call to the Management API, consuming the Management API rate limit. If this request hits the rate limit and fails to retry within the timeout window, you will receive a Deadline Exceeded error.
+  
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        name
+        
+          String. The name of metadata property.
+        
+      
+      
+        value
+        
+          
+            Any value. The value of the metadata property. This may be
+            set to null to remove the metadata property.
+          
+        
+      
+    
+  
+
+
+  api.user.setUserMetadata(name, value)
+  Set general metadata for the user that is logging in.  Note: This trigger makes a call to the Management API, consuming the Management API rate limit. If this request hits the rate limit and fails to retry within the timeout window, you will receive a Deadline Exceeded error.
+  Returns a reference to the api object.
+  
+    
+      
+        Parameter
+        Description
+      
+    
+    
+      
+        name
+        
+          String. The name of metadata property.
+        
+      
+      
+        value
+        
+          
+            Any value. The value of the metadata property. This may be
+            set to null to remove the metadata property.

@@ -1,0 +1,297 @@
+Actions Triggers: post-user-registration - Event ObjectThe event object for the post-user-registration Actions trigger provides contextual information about the newly-created user.
+  
+    
+      Property
+      Description
+    
+  
+  
+    
+      
+        event.connection
+      
+      
+        Details about the Connection that was used to register the user.
+        Includes the following properties:
+        
+          
+            id String.
+            The connection's unique identifier.
+          
+          
+            metadata Optional dictionary.
+            Metadata associated with the connection.
+          
+          
+            name String.
+            The name of the connection used to authenticate the user (for example, twitter or some-g-suite-domain).
+          
+          
+            strategy String.
+            The type of connection. For social connections, event.connection.strategy === event.connection.name. For enterprise connections, the strategy is waad (Windows Azure AD), ad (Active Directory/LDAP), auth0 (database connections), and so on.
+          
+        
+      
+    
+    
+      
+        event.request
+        (Optional)
+      
+      
+        Details about the request that initiated the transaction.
+        Includes the following properties:
+        
+          
+            geoip Object. Contains geographical information about the request.
+            Includes the following properties:
+            
+              cityName Optional string.
+              continentCode Optional string.
+              countryCode Optional string.
+              countryCode3 Optional string.
+              countryName Optional string.
+              latitude Optional number.
+              longitude Optional number.
+              subdivisionCode Optional string.
+              subdivisionName Optional string.
+              timeZone Optional string.
+            
+          
+          
+            hostname Optional string. 
+            The hostname that is being used for the authentication
+              flow.
+          
+          
+            ip String.
+            The originating IP address of the request.
+          
+          
+            language Optional string.
+            The language requested by the browser.
+          
+          
+            method String.
+            The HTTP method used for the request
+          
+          
+            user_agent Optional string.
+            The value of the User-Agent header received when initiating the transaction.
+          
+        
+      
+    
+        event.security_context(Optional)An object containing fingerprint signatures. This will be available only when traffic is handled through the Auth0 Edge (default Auth0-managed proxy layer). It may not be available if requests are routed through a customer-managed reverse proxy. The JA3/JA4 fingerprint can be null or empty in some cases. The most common case is for HTTP requests because JA3 and JA4 are calculated in TLS. It can also be empty due to the Worker sending requests within the same zone or to a zone that is not proxied (or a third party).Includes the following properties:ja3 Optional string. JA3 fingerprint signature. This will be available only if the client is using a TLS connection.ja4 Optional string. JA4 fingerprint signature. This will be available only if the client is using a TLS connection.
+    
+      
+        event.tenant
+      
+      
+        Details about the Tenant associated with the current transaction.
+        Includes the following properties:
+        
+          
+            id String.
+            The name of the tenant.
+          
+        
+      
+    
+    
+      
+        event.transaction
+        (Optional)
+      
+      
+        Details about the current transaction.
+        Includes the following properties:
+        
+          
+            acr_values Array of strings.
+            Any acr_values provided in the original authentication
+              request.
+          
+          
+            locale String.
+            The locale to be used for this transaction as determined by comparing the browser's requested languages to the tenant's language settings.
+          
+          
+            login_hint Optional string.
+            Hint to the authorization server about the login identifier the end-user might use to log in (if necessary).
+          
+          
+            prompt Optional array of strings.
+            List of instructions indicating whether the user may be prompted for re-authentication and consent.
+          
+          
+            protocol Optional string. Contains information about the authentication protocol.
+            Possible values include:
+            
+              
+                oidc-basic-profile
+                Most used, web-based login.
+              
+              
+                oidc-implicit-profile
+                Used on mobile devices and single-page apps.
+              
+              
+                samlp SAML protocol used on SaaS apps.
+              
+              
+                wsfed
+                WS-Federation used on Microsoft products like Office365.
+              
+              
+                wstrust-usernamemixed
+                WS-trust User/password login used on CRM and Office365.
+              
+              
+                oauth2-webauthn
+                Signup via Native Passkeys API.
+              
+              
+                oauth2-device-code
+                Transaction using the Device Authorization Flow.css-1lvvwdx{z-index:1500;pointer-events:none;}.css-1lvvwdx[data-popper-placement*="bottom"] .MuiTooltip-arrow{top:0;margin-top:-0.71em;}.css-1lvvwdx[data-popper-placement*="bottom"] .MuiTooltip-arrow::before{transform-origin:0 100%;}.css-1lvvwdx[data-popper-placement*="top"] .MuiTooltip-arrow{bottom:0;margin-bottom:-0.71em;}.css-1lvvwdx[data-popper-placement*="top"] .MuiTooltip-arrow::before{transform-origin:100% 0;}.css-1lvvwdx[data-popper-placement*="right"] .MuiTooltip-arrow{left:0;margin-left:-0.71em;height:1em;width:0.71em;}.css-1lvvwdx[data-popper-placement*="right"] .MuiTooltip-arrow::before{transform-origin:100% 100%;}.css-1lvvwdx[data-popper-placement*="left"] .MuiTooltip-arrow{right:0;margin-right:-0.71em;height:1em;width:0.71em;}.css-1lvvwdx[data-popper-placement*="left"] .MuiTooltip-arrow::before{transform-origin:0 0;}.css-jrsr9g{z-index:1500;pointer-events:none;}.css-jrsr9g[data-popper-placement*="bottom"] .MuiTooltip-arrow{top:0;margin-top:-0.71em;}.css-jrsr9g[data-popper-placement*="bottom"] .MuiTooltip-arrow::before{transform-origin:0 100%;}.css-jrsr9g[data-popper-placement*="top"] .MuiTooltip-arrow{bottom:0;margin-bottom:-0.71em;}.css-jrsr9g[data-popper-placement*="top"] .MuiTooltip-arrow::before{transform-origin:100% 0;}.css-jrsr9g[data-popper-placement*="right"] .MuiTooltip-arrow{left:0;margin-left:-0.71em;height:1em;width:0.71em;}.css-jrsr9g[data-popper-placement*="right"] .MuiTooltip-arrow::before{transform-origin:100% 100%;}.css-jrsr9g[data-popper-placement*="left"] .MuiTooltip-arrow{right:0;margin-right:-0.71em;height:1em;width:0.71em;}.css-jrsr9g[data-popper-placement*="left"] .MuiTooltip-arrow::before{transform-origin:0 0;}.
+              
+              
+                oauth2-resource-owner
+                User/password login typically used on database connections.
+              
+              
+                oauth2-resource-owner-jwt-bearer
+                Login using a bearer JWT signed with user's private key.
+              
+              
+                oauth2-password
+                Login using the password exchange.
+              
+              
+                oauth2-access-token
+                Refreshing a token using the refresh token exchange.
+              
+              
+                oauth2-refresh-token
+                Refreshing a token using the refresh token exchange.
+              
+              oauth2-token-exchange
+               
+                oidc-basic-profile
+                Most used, web-based login.
+              
+            
+          
+          
+            redirect_uri Optional string.
+            The URL to which Auth0 will redirect the browser after the transaction is completed.
+          
+          
+            requested_scopes Array of strings.
+            The scopes requested (if any) when starting this authentication flow.
+          
+          
+            response_mode Optional string.
+            Informs the authorizationsServer of the mechanism to be used for returning parameters from the authorization endpoint.
+            Possible values include:
+            
+              query
+              fragment
+              form_post
+              web_message
+            
+          
+          
+            response_type Optional array of strings.
+            Possible values include:
+            
+              code
+              token
+              id_token
+            
+          
+          
+            state Optional string.
+            An opaque arbitrary alphanumeric string your app adds to the initial request that Auth0 includes when redirecting back to your application.
+          
+          
+            ui_locales Array of strings.
+            The ui_locales provided in the original authentication request.
+          
+        
+      
+    
+    
+      
+        event.user
+      
+      
+        
+          An object describing the user on whose behalf the current transaction was initiated.
+        
+        Includes the following properties:
+        
+          
+            app_metadata Dictionary.
+            Custom fields that store info about a user that influences the user's access, such as support plan, security roles, or access control groups.
+          
+          
+            created_at String.
+            Timestamp indicating when the user profile was first created.
+          
+          
+            email Optional string.
+            (unique) User's email address.
+          
+          
+            email_verified Boolean.
+            Indicates whether the user has verified their email address.
+          
+          
+            family_name Optional string.
+            User's family name.
+          
+          
+            given_name Optional string.
+            User's given name.
+          
+          
+            last_password_reset Optional string.
+            Timestamp indicating the last time the user's password was reset/changed. At user creation, this field does not exist. This property is only available for Database connections.
+          
+          
+            name Optional string.
+            User's full name.
+          
+          
+            nickname Optional string.
+            User's nickname.
+          
+          
+            phone_number Optional string.
+            User's phone number.
+          
+          
+            phone_verified Optional boolean.
+            Indicates whether the user has verified their phone number.
+          
+          
+            picture Optional string.
+            URL pointing to the
+              user's profile picture.
+          
+          
+            updated_at String.
+            Timestamp indicating when the user's profile was last updated/modified.
+          
+          
+            user_id String.
+            (unique) User's unique identifier.
+          
+          
+            user_metadata Dictionary.
+            Custom fields that store info about a user that does not impact what they can or cannot access, such as work address, home address, or user preferences.
+          
+          
+            username Optional string.
+            (unique) User's username.
