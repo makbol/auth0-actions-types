@@ -1,3 +1,5 @@
+import { CustomClaimValue } from "./CustomClaims"
+
 /**
  * Request changes to the access token being issued.
  */
@@ -8,7 +10,7 @@ export interface ApiAccessToken {
    * @param value The value of the claim.
    * @returns Returns a reference to the api object.
    */
-  setCustomClaim(name: string, value: string): void
+  setCustomClaim(name: string, value: CustomClaimValue): void
   /**
    * Add a scope on the Access Token that will be issued upon completion of the login flow.
    * @param scope The scope to be added.
