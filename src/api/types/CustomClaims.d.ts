@@ -1,14 +1,9 @@
 /**
- * String value of a custom claim on either the Access Token or the Identity Token.
- */
-export type CustomClaimString = string;
-
-/**
  * Nested object inside custom claim on either the Access Token or the Identity Token.
  */
-export type CustomClaimObject = Record<string, CustomClaimString | CustomClaimString[] | Record<string, CustomClaimString>>;
+export type CustomClaimObject = Record<string, string | string[] | Record<string, string> | Record<string, string[]>>;
 
 /**
  * Value of a custom claim on either the Access Token or the Identity Token.
  */
-export type CustomClaimValue = CustomClaimString | CustomClaimObject;
+export type CustomClaimValue = string | string[] | Record<string, string> | Record<string, string[]> | CustomClaimObject;
