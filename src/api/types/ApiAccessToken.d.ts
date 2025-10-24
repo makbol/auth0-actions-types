@@ -1,4 +1,4 @@
-import { CustomClaimValue } from './CustomClaims'
+import { CustomClaimValue } from './ApiCustomClaims'
 
 /**
  * Request changes to the access token being issued.
