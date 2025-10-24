@@ -1,5 +1,5 @@
 import { PostLoginAPI } from '../PostLoginAPI'
-import { CustomClaimValue } from './CustomClaims'
+import { CustomClaimValue } from './ApiCustomClaims'
 
 /**
  * Request changes to the ID token being issued.
