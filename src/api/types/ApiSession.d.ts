@@ -20,6 +20,19 @@ export interface ApiSession {
   ): PostLoginAPI
 
   /**
+   * Modify the session cookie persistence.
+   *
+   * [Early Access]
+   * @param options
+   * @param options.persistent The session is stored in a persistent cookie and survives browser restarts, unless manually cleared.
+   * @param options.non-persistent The session is stored in memory only and cleared when the browser or application is closed.
+   */
+  setCookieMode(options: {
+    persistent: string
+    'non-persistent': string
+  }): PostLoginAPI
+
+  /**
    * Set a new absolute expiration date for a specified session.
    * @param absolute The absolute expiry time in milliseconds since the unix epoch.
    * @returns A reference to the api object.
@@ -35,4 +48,24 @@ export interface ApiSession {
    * @returns A reference to the api object.
    */
   setIdleExpiresAt(idle: number): PostLoginAPI
+
+  /**
+   * Sets a key-value pair in the metadata object of the current session. Setting the value to null will delete the provided metadata key.
+   *
+   * [Private Early Access]
+   * @param key The key of the metadata property to be set. No special and a maximum of 256 characters.
+   * @param value The value of the metadata property. No special and a maximum of 256 characters. Set to null removes the metadata property.
+   */
+  setMetadata(key: string, value: string): void
+
+  /**
+   * [Private Early Access]
+   * @param key The key of the metadata property to delete.
+   */
+  deleteMetadata(key: string): void
+
+  /**
+   * Deletes all keys from the metadata object of the current session.
+   */
+  evictMetdata(): void
 }

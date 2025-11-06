@@ -151,4 +151,10 @@ export interface ApiSAMLResponse {
    * @param key Optional private key to sign the SAML responses or assertions.
    */
   setKey(key: string | undefined): void
+
+  /**
+   *
+   * @deprecated Default is sha256
+   */
+  setDigestAlgorithm(digestAlgorithm: 'sha256' | 'sha1'): void
 }
