@@ -2,49 +2,55 @@ export interface EventRequest {
   /**
    * The ASN (autonomous system number) of the user-agent making the request.
    */
-  asn: string
+  asn: string | undefined
 
   /**
-   * The body of the POST request. This data will only be available during refresh token and Client Credential Exchange flows.
+   * Body of the POST request (available in refresh token, Client Credential Exchange, Post Login Action).
    */
   body: Record<string, string>
 
   geoip: EventRequestGeoip
+
   /**
    * The hostname that is being used for the authentication flow.
    */
-  hostname?: string
+  hostname: string | undefined
+
   /**
    * The originating IP address of the request.
    */
   ip: string
+
   /**
    * The language requested by the browser.
    */
-  language?: string
+  language: string | undefined
+
   /**
    * The HTTP method used for the request.
    */
   method: string
+
   /**
    * The query string parameters sent to the authorization request.
    */
   query: Record<string, string>
+
   /**
-   * The value of the User-Agent header received when initiating the transaction.
+   * Value of the User-Agent header.
    */
   user_agent: string
 }
 
 export interface EventRequestGeoip {
-  cityName?: string
-  continentCode?: string
-  countryCode?: string
-  countryCode3?: string
-  countryName?: string
-  latitude?: string
-  longitude?: string
-  subdivisionCode?: string
-  subdivisionName?: string
-  timeZone?: string
+  cityName: string | undefined
+  continentCode: string | undefined
+  countryCode: string | undefined
+  countryCode3: string | undefined
+  countryName: string | undefined
+  latitude: string | undefined
+  longitude: string | undefined
+  subdivisionCode: string | undefined
+  subdivisionName: string | undefined
+  timeZone: string | undefined
 }

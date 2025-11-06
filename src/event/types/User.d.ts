@@ -24,7 +24,7 @@ export interface EventUser {
   /**
    * An an array of authentication factors that the user has enrolled.
    */
-  enrolledFactors: Array<EventUserEnrolledFactor>
+  enrolledFactors: Array<EventUserEnrolledFactor> | undefined
 
   /**
    * User's family name.
@@ -99,7 +99,7 @@ export interface EventUserEnrolledFactor {
   /**
    * Additional options describing this instance of the enrolled factor.
    */
-  options?: Record<string, string>
+  options: Record<string, string> | undefined
   /**
    * The type of authentication factor such as push-notification, phone, email, otp, webauthn-roaming and webauthn-platform.
    */
@@ -118,25 +118,25 @@ export interface EventUserIdentity {
   /**
    * Name of the Auth0 connection used to authenticate the user.
    */
-  connection?: string
+  connection: string | undefined
 
   /**
    * Indicates whether the connection is a social one.
    */
-  isSocial?: boolean
+  isSocial: boolean | undefined
 
   /**
    * User information associated with the connection. When profiles are linked, it is populated with the associated user info for secondary accounts.
    */
-  profileData?: Record<string, string>
+  profileData: Record<string, string> | undefined
 
   /**
    * Name of the entity that is authenticating the user, such as Facebook, Google, SAML, or your own provider.
    */
-  provider?: string
+  provider: string | undefined
 
   /**
    * User's unique identifier for this connection/provider.
    */
-  user_id?: string
+  user_id: string | undefined
 }

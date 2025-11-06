@@ -6,7 +6,7 @@ export interface EventConnection {
   /**
    * Metadata associated with the connection.
    */
-  metadata?: Record<string, string>
+  metadata: Record<string, string> | undefined
   /**
    * The name of the connection used to authenticate the user (such as twitter or some-g-suite-domain).
    */
