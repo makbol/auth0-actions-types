@@ -1,4 +1,5 @@
 import { PostLoginAPI } from '../PostLoginAPI'
+import { CustomClaimValue } from './ApiCustomClaims'
 
 /**
  * Request changes to the ID token being issued.
@@ -10,5 +11,5 @@ export interface ApiIdToken {
    * @param value The value of the claim.
    * @returns Returns a reference to the api object.
    */
-  setCustomClaim(name: string, value: string): PostLoginAPI
+  setCustomClaim(name: string, value: CustomClaimValue): PostLoginAPI
 }
