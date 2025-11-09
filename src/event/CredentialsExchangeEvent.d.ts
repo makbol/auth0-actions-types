@@ -17,7 +17,7 @@ export interface CredentialsExchangeEvent {
   /**
    * Information about the Client with which this login transaction was initiated.
    */
-  client: EventClient
+  client: Omit<EventClient, 'refresh_token'>
 
   /**
    * Details about the Organization associated with the current transaction.
