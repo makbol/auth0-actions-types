@@ -1,58 +1,58 @@
 [
   {
     "name": "post-login:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/login-trigger/post-login-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/login-trigger/post-login-event-object.md"
   },
   {
     "name": "post-login:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/login-trigger/post-login-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/login-trigger/post-login-api-object.md"
   },
   {
     "name": "pre-user-registration:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/pre-user-registration-trigger/pre-user-registration-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/pre-user-registration-trigger/pre-user-registration-event-object.md"
   },
   {
     "name": "pre-user-registration:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/pre-user-registration-trigger/pre-user-registration-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/pre-user-registration-trigger/pre-user-registration-api-object.md"
   },
   {
     "name": "post-user-registration:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/post-user-registration-trigger/post-user-registration-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/post-user-registration-trigger/post-user-registration-event-object.md"
   },
   {
     "name": "post-user-registration:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/post-user-registration-trigger/post-user-registration-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/signup-and-login-triggers/post-user-registration-trigger/post-user-registration-api-object.md"
   },
   {
     "name": "send-phone-message:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/mfa-notifications-trigger/send-phone-message-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/mfa-notifications-trigger/send-phone-message-event-object.md"
   },
   {
     "name": "send-phone-message:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/mfa-notifications-trigger/send-phone-message-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/mfa-notifications-trigger/send-phone-message-api-object.md"
   },
   {
     "name": "password-reset-post-challenge:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-challenge-trigger/post-challenge-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-challenge-trigger/post-challenge-event-object.md"
   },
   {
     "name": "password-reset-post-challenge:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-challenge-trigger/post-challenge-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-challenge-trigger/post-challenge-api-object.md"
   },
   {
     "name": "password-reset-post-change:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-change-password-trigger/post-change-password-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-change-password-trigger/post-change-password-event-object.md"
   },
   {
     "name": "password-reset-post-change:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-change-password-trigger/post-change-password-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/password-reset-triggers/post-change-password-trigger/post-change-password-api-object.md"
   },
   {
     "name": "credentials-exchange:event",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/machine-to-machine-trigger/credentials-exchange-event-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/machine-to-machine-trigger/credentials-exchange-event-object.md"
   },
   {
     "name": "credentials-exchange:api",
-    "url": "https://auth0.com/docs/customize/actions/explore-triggers/machine-to-machine-trigger/credentials-exchange-api-object"
+    "url": "https://auth0.com/docs/customize/actions/explore-triggers/machine-to-machine-trigger/credentials-exchange-api-object.md"
   }
 ]

@@ -21,9 +21,9 @@ interface SessionTransferTokenRequest {
   /**
    * The Autonomous System Number (ASN) associated with the request that issued the token.
    */
-  asn?: string
+  asn: string | undefined
 
-  geoip?: EventRequestGeoip
+  geoip: EventRequestGeoip | undefined
 
   /**
    * The IP address associated with the request that issued the token.
@@ -33,5 +33,5 @@ interface SessionTransferTokenRequest {
   /**
    * The User-Agent string of the device that issued the token.
    */
-  user_agent?: string
+  user_agent: string | undefined
 }

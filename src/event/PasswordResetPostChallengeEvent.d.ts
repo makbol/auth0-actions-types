@@ -15,10 +15,7 @@ export interface PasswordResetPostChallengeEvent {
   /**
    * Details about authentication signals obtained during the login flow.
    */
-  authentication: Omit<
-    EventAuthentication,
-    'riskAssessment' | 'confidence' | 'external' | 'version'
-  >
+  authentication: Pick<EventAuthentication, 'methods'>
 
   /**
    * An object containing information describing the authorization granted to the user who is logging in.
@@ -38,7 +35,7 @@ export interface PasswordResetPostChallengeEvent {
   /**
    * Details about the Organization associated with the current transaction.
    */
-  organization?: EventOrganization
+  organization: EventOrganization | undefined
 
   /**
    * Details about the request that initiated the transaction.
@@ -66,7 +63,7 @@ export interface PasswordResetPostChallengeEvent {
   /**
    * An object describing the user on whose behalf the current transaction was initiated.
    */
-  user: EventUser
+  user: Omit<EventUser, 'multifactor'>
 
   /**
    * An object containing the secrets set in the Auth0 Management Dashboard.

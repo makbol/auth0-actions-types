@@ -7,10 +7,10 @@ export interface EventPrompt {
   /**
    * Fields and hidden fields data
    */
-  fields?: string
+  fields: string | undefined
 
   /**
    * Shared variables data
    */
-  vars?: string
+  vars: string | undefined
 }

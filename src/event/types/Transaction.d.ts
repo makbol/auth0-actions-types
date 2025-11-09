@@ -2,39 +2,41 @@ export interface EventTransaction {
   /**
    * Any acr_values provided in the original authentication request.
    */
-  acr_values: Array<string>
+  acr_values: Array<string> | undefined
 
   /**
    * Unique identifier for the transaction. Populated for all browser-based login flows.
    */
-  id?: string
+  id: string | undefined
 
   /**
    * Dynamic Linking ID that allows developers to reference this transaction.
    */
-  linking_id?: string
+  linking_id: string | undefined
 
   /**
    * The locale to be used for this transaction as determined by comparing the browser's requested languages to the tenant's language settings.
    */
-  locale?: string
+  locale: string | undefined
 
   /**
    * Hint to the Authorization Server about the login identifier the End-User might use to log in (if necessary).
    */
-  login_hint?: string
+  login_hint: string | undefined
 
   /**
    * An object containing shared data across custom Actions for the duration of a transaction.
+   *
+   * [Limited Early Access]
    */
   metadata: Record<string, string | number | boolean>
 
   /**
    * List of instructions indicating whether the user may be prompted for re-authentication and consent.
    */
-  prompt?: Array<string>
+  prompt: Array<string> | undefined
 
-  protocol?:
+  protocol:
     | 'oidc-basic-profile'
     | 'oidc-ciba'
     | 'oidc-hybrid-profile'
@@ -50,44 +52,47 @@ export interface EventTransaction {
     | 'oauth2-access-token'
     | 'oauth2-refresh-token'
     | 'oauth2-token-exchange'
+    | undefined
 
   /**
    * The URL to which Auth0 will redirect the browser after the transaction is completed.
    */
-  redirect_uri?: string
+  redirect_uri: string | undefined
 
   /**
    * The details of a rich authorization request per Section 2 of the Rich Authorization Requests spec at https://datatracker.ietf.org/doc/html/draft-ietf-oauth-rar#section-2.
    */
-  requested_authorization_details?: Array<{
-    /**
-     * The type of authorization details as a string. The value of the type field determines the allowable contents of the object which contains it.
-     */
-    type: string
-  }>
+  requested_authorization_details:
+    | Array<{
+        /**
+         * The type of authorization details as a string. The value of the type field determines the allowable contents of the object which contains it.
+         */
+        type: string
+      }>
+    | undefined
 
   /**
    * The scopes requested (if any) when starting this authentication flow.
    */
-  requested_scopes?: Array<string>
+  requested_scopes: Array<string> | undefined
 
   /**
    * Informs the Authorization Server of the mechanism to be used for returning parameters from the Authorization Endpoint.
    */
-  response_mode?: 'query' | 'fragment' | 'form_post' | 'web_message'
+  response_mode: 'query' | 'fragment' | 'form_post' | 'web_message' | undefined
 
   /**
    * Denotes the kind of credential that Auth0 will return.
    */
-  response_type?: Array<'code' | 'token' | 'id_token'>
+  response_type: Array<'code' | 'token' | 'id_token'> | undefined
 
   /**
    * An opaque arbitrary alphanumeric string your app adds to the initial request that Auth0 includes when redirecting back to your application.
    */
-  state?: string
+  state: string | undefined
 
   /**
    * The ui_locales provided in the original authentication request.
    */
-  ui_locales?: Array<string>
+  ui_locales: Array<string> | undefined
 }

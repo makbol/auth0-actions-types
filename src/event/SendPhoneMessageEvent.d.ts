@@ -2,7 +2,6 @@ import {
   EventClient,
   EventMessage,
   EventRequest,
-  EventSecurityContext,
   EventTenant,
   EventUser
 } from './types'
@@ -27,17 +26,7 @@ export interface SendPhoneMessageEvent {
   /**
    * An object describing the user on whose behalf the current transaction was initiated.
    */
-  user: Omit<
-    EventUser,
-    | 'enrolledFactors'
-    | 'family_name'
-    | 'given_name'
-    | 'last_password_reset'
-    | 'nickname'
-    | 'phone_number'
-    | 'phone_verified'
-    | 'username'
-  >
+  user: Omit<EventUser, 'enrolledFactors' | 'multifactor'>
   /**
    * An object containing the secrets set in the Auth0 Management Dashboard.
    */
@@ -47,6 +36,4 @@ export interface SendPhoneMessageEvent {
 
   // Not documented
   configuration: Record<string, unknown>
-
-  security_context: EventSecurityContext
 }

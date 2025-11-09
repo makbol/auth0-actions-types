@@ -47,7 +47,8 @@ export interface PostLoginAPI {
 
   /**
    * Make application-specific changes to the metadata of the user that is logging in.
-   * NOTE: Invoking these methods won't update the metadata immediately. You can call them several times throughout multiple actions of the same flow and the engine will aggregate the changes and update the metadata at once before the flow is completed.
+   * NOTE: Invoking these methods won't update the metadata immediately. You can call them several times throughout
+   * multiple actions of the same flow and the engine will aggregate the changes and update the metadata at once before the flow is completed.
    */
   user: ApiUser
 
@@ -72,5 +73,8 @@ export interface PostLoginAPI {
    */
   session: ApiSession
 
+  /**
+   * [Early Access]
+   */
   transaction: ApiTransaction
 }

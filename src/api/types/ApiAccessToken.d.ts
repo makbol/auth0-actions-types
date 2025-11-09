@@ -1,3 +1,4 @@
+import { PostLoginAPI } from '../PostLoginAPI'
 import { CustomClaimValue } from './ApiCustomClaims'
 
 /**
@@ -10,17 +11,17 @@ export interface ApiAccessToken {
    * @param value The value of the claim.
    * @returns Returns a reference to the api object.
    */
-  setCustomClaim(name: string, value: CustomClaimValue): void
+  setCustomClaim(name: string, value: CustomClaimValue): PostLoginAPI
   /**
    * Add a scope on the Access Token that will be issued upon completion of the login flow.
    * @param scope The scope to be added.
    * @returns Returns a reference to the api object.
    */
-  addScope(scope: string): void
+  addScope(scope: string): PostLoginAPI
   /**
    * Remove a scope on the Access Token that will be issued upon completion of the login flow.
    * @param scope The scope to be removed.
    * @returns Returns a reference to the api object.
    */
-  removeScope(scope: string): void
+  removeScope(scope: string): PostLoginAPI
 }

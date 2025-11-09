@@ -10,10 +10,10 @@ export interface ApiMultifactor {
    * @param options Additional options for enabling multifactor challenges.
    * @param options.allowRememberBrowser Determines if browser should be remembered, so that the multifactor challenge can later be skipped. Defaults to false.
    * @param options.providerOptions Additional options to configure the challenge, only available for the duo provider.
-   * @param options.providerOptions.host
-   * @param options.providerOptions.ikey
-   * @param options.providerOptions.skey
-   * @param options.providerOptions.username
+   * @param options.providerOptions.host This is the API hostname value from your Duo account.
+   * @param options.providerOptions.ikey This is the Client ID (previously Integration key) value from your Duo account.
+   * @param options.providerOptions.skey This is the Client secret (previously Secret key) value from your Duo account.
+   * @param options.providerOptions.username Use some attribute of the profile as the username in DuoSecurity. This is also useful if you already have your users enrolled in Duo.
    * @returns Returns a reference to the api object.
    */
   enable(

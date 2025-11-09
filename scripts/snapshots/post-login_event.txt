@@ -1,1 +1,892 @@
-Actions Triggers: post-login - Event ObjectThe event object for the post-login Actions trigger provides contextual information about a single user logging in via Auth0. PropertyDescriptionevent.authentication(Optional)Details about authentication signals obtained during the login flow.Includes the following properties:methods Array of objects. Contains the authentication methods a user has completed during their session.Array elements:One of the following object schemas:An object with the following properties:name String. The name of the first factor that was completed. Values include the following:  "federated" A social or enterprise connection was used to authenticate the user as the first factor. "pwd" A password was used to authenticate a database connection user as the first factor. "passkey" A passkey was used to authenticate a database connnection user as the first factor. "sms" A Passwordless SMS connection was used to authenticate the user as the first factor. "email" A Passwordless Email connection was used to authenticate the user as the first factor or verify email for password reset. "phone_number" A phone number was used for password reset. "mock" Used for internal testing. string A custom authentication method denoted by a URL (as second or later factor). timestamp String. An object with the following properties:name The value "mfa". The user completed multi-factor authentication (second or later factors).timestamp String. riskAssessment Optional object. Details about risk assessments obtained during the login or password reset flow.Includes the following properties:assessments Object. Includes the following properties:ImpossibleTravel Optional object. Determines if the user is logging in from a location signaling impossible travel.Includes the following properties:code String. Possible values include:minimal_travel_from_last_login travel_from_last_login substantial_travel_from_last_login impossible_travel_from_last_login invalid_travel missing_geoip anonymous_proxy unknown_location initial_login location_history_not_found assessment_not_available confidence String. Possible values include:low medium high neutral NewDevice Optional object. Determines if the user is logging in from a known device.Includes the following properties:code String. Possible values include:match partial_match no_match initial_login unknown_device no_device_history assessment_not_available confidence String. Possible values include:low medium high neutral details Optional object. Includes the following properties:device Optional string. Possible values include:known unknown useragent Optional string. Possible values include:known unknown UntrustedIP Optional object. Shows if the IP was found in Auth0's repository of low reputation IPs.Includes the following properties:code String. Possible values include:not_found_on_deny_list found_on_deny_list invalid_ip_address assessment_not_available confidence String. Possible values include:low medium high neutral details Optional object. Includes the following properties:category Optional string. ip Optional string. The originating IP address of the request.matches Optional string. source Optional string. confidence String. Overall risk scorePossible values include:low medium high neutral external Optional object. Includes the following properties:akamai Optional object. [Limited Early Access] External risk assessment.Includes the following properties:akamaiBot Optional object. The bot detection results as forwarded by Akamai Bot Manager.Includes the following properties:action Optional string. The action of the Akamai bot manager results.botCategory Optional array of strings. The bot category of the Akamai bot manager results.botScore Optional number. The bot score of the Akamai bot manager results.botScoreResponseSegment Optional string. The bot score response segment of the Akamai bot manager results.botnetId Optional string. The botnet ID of the Akamai bot manager results.type Optional string. The type of the Akamai bot manager results.akamaiUserRisk Optional object. The user risk detection results as forwarded by Akamai Account Protector.Includes the following properties:action Optional string. The action of the Akamai user risk assessment.allow Optional number. The allowed status of the Akamai user risk assessment.emailDomain Optional string. The email domain of the user.general Optional string. The general risk of the Akamai user risk assessment.ouid Optional string. The OUID of the user.requestid Optional string. The request ID of the user.risk Optional string. The risk of the Akamai user risk assessment.score Optional number. The score of the Akamai user risk assessment.status Optional number. The status of the Akamai user risk assessment.trust Optional string. The trust of the Akamai user risk assessment.username Optional string. The username of the user.uuid Optional string. The UUID of the Akamai user risk assessment.supplemental Optional object. Includes the following properties:akamai Optional object. [Limited Early Access] Supplemental risk assessment.Includes the following properties:akamaiBot Optional object. The bot detection results as forwarded by Akamai Bot Manager.Includes the following properties:action Optional string. The action of the Akamai bot manager results.botCategory Optional array of strings. The bot category of the Akamai bot manager results.botScore Optional number. The bot score of the Akamai bot manager results.botScoreResponseSegment Optional string. The bot score response segment of the Akamai bot manager results.botnetId Optional string. The botnet ID of the Akamai bot manager results.type Optional string. The type of the Akamai bot manager results.akamaiUserRisk Optional object. The user risk detection results as forwarded by Akamai Account Protector.Includes the following properties:action Optional string. The action of the Akamai user risk assessment.allow Optional number. The allowed status of the Akamai user risk assessment.emailDomain Optional string. The email domain of the user.general Optional string. The general risk of the Akamai user risk assessment.ouid Optional string. The OUID of the user.requestid Optional string. The request ID of the user.risk Optional string. The risk of the Akamai user risk assessment.score Optional number. The score of the Akamai user risk assessment.status Optional number. The status of the Akamai user risk assessment.trust Optional string. The trust of the Akamai user risk assessment.username Optional string. The username of the user.uuid Optional string. The UUID of the Akamai user risk assessment.version String. event.authorization(Optional)An object containing information describing the authorization granted to the user who is logging in.Includes the following properties:roles Array of strings. An array containing the names of a user's assigned roles.event.clientInformation about the Client with which this login transaction was initiated.Includes the following properties:client_id String. The client id of the application to which the user is logging in.metadata Dictionary. An object for holding other application properties.Keys are of type StringValues are one of the following types:Stringname String. The name of the application (as defined in the Dashboard).refresh_token Optional object. [Private Early Access] An object for holding refresh token configuration properties.Includes the following properties:policies Optional array of objects. [Private Early Access] A collection of policies governing multi-resource refresh token exchange (MRRT), defining how refresh tokens can be used across different resource serversElements include the following properties:audience Optional string. [Private Early Access] The specific resource server (audience) to which this MRRT policy applies.scope Optional array of strings. The scopes of access that are authorized for the resource server (audience).event.connectionDetails about the Connection that was used to authenticate the user.Includes the following properties:id String. The connection's unique identifier.metadata Optional dictionary. Metadata associated with the connection.Keys are of type StringValues are one of the following types:Stringname String. The name of the connection used to authenticate the user (such as twitter or some-g-suite-domain).strategy String. The type of connection. For social connections, event.connection.strategy === event.connection.name. For enterprise connections, the strategy is waad (Windows Azure AD), ad (Active Directory/LDAP), auth0 (database connections), and so on.event.organization(Optional)Details about the Organization associated with the current transaction.Includes the following properties:display_name String. The friendly name of the Organization.id String. The Organization identifier.metadata Dictionary. Metadata associated with the Organization.Keys are of type StringValues are one of the following types:Stringname String. The name of the Organization.event.prompt(Optional)Collected data from rendered custom prompts.Includes the following properties:fields Optional string. Fields and hidden fields data.id String. The prompt ID.vars Optional string. Shared variables data.event.refresh_token(Optional)[Enterprise Customers] The current refresh token.Includes the following properties:client_id Optional string. [Enterprise Customers] The ID of the client associated with the refresh token.created_at String. [Enterprise Customers] Timestamp of when the refresh token was created.device Optional object. Includes the following properties:initial_asn Optional string. [Enterprise Customers] First autonomous system number associated with this refresh token.initial_ip Optional string. [Enterprise Customers] First IP address associated with this refresh token.initial_user_agent Optional string. [Enterprise Customers] First user agent of the device associated with this refresh token.last_asn Optional string. [Enterprise Customers] Last autonomous system number from which this refresh token was last exchanged.last_ip Optional string. [Enterprise Customers] Last IP address from which this refresh token was last exchanged.last_user_agent Optional string. [Enterprise Customers] Last user agent of the device from which this refresh token was last exchanged.expires_at Optional string. [Enterprise Customers] Timestamp of when the refresh token will absolutely expire.id String. [Enterprise Customers] The ID of the refresh token.idle_expires_at Optional string. [Enterprise Customers] Timestamp of when the refresh token will idle expire.last_exchanged_at Optional string. [Enterprise Customers] Timestamp of when the refresh token was last successfully exchanged.resource_servers Optional array of objects. Elements include the following properties:audience String. [Enterprise Customers] The audience of the refresh token.scopes String. [Enterprise Customers] Scopes of the refresh token.rotating Optional boolean. [Enterprise Customers] If the refresh token is a rotating refresh token.session_id Optional string. [Enterprise Customers] The ID of the session bound to the refresh token.session_transfer Optional object. [Private Early Access] This object is defined when the session is created from a session transfer token (Native to Web SSO), undefined otherwise.Includes the following properties:parent_refresh_token Optional object. [Private Early Access] This object is defined when the refresh token is created from a session initiated as a result of session transfer (Native to Web SSO), undefined otherwise.Includes the following properties:id Optional string. [Private Early Access] The ID of the parent refresh token from which this session/refresh token was created as result of a session transfer (Native to Web SSO).user_id Optional string. [Enterprise Customers] The ID of the user bound to the refresh token.event.requestDetails about the request that initiated the transaction.Includes the following properties:asn Optional string. The ASN (autonomous system number) of the user-agent making the request.body String. The body of the POST request. This data will only be available during refresh token and Client Credential Exchange flows and Post Login Action.geoip Object. Includes the following properties:cityName Optional string. continentCode Optional string. countryCode Optional string. countryCode3 Optional string. countryName Optional string. latitude Optional number. longitude Optional number. subdivisionCode Optional string. subdivisionName Optional string. timeZone Optional string. hostname Optional string. The hostname that is being used for the authentication flow.ip String. The originating IP address of the request.language Optional string. The language requested by the browser.method String. The HTTP method used for the requestquery String. The query string parameters sent to the authorization request.user_agent Optional string. The value of the User-Agent header received when initiating the transaction.event.resource_server(Optional)Details about the resource server to which the access is being requested.Includes the following properties:identifier String. The identifier of the resource server. For example: https://your-api.example.com.event.security_context(Optional)An object containing fingerprint signatures. This will be available only when traffic is handled through the Auth0 Edge (default Auth0-managed proxy layer). It may not be available if requests are routed through a customer-managed reverse proxy. The JA3/JA4 fingerprint can be null or empty in some cases. The most common case is for HTTP requests because JA3 and JA4 are calculated in TLS. It can also be empty due to the Worker sending requests within the same zone or to a zone that is not proxied (or a third party).Includes the following properties:ja3 Optional string. JA3 fingerprint signature. This will be available only if the client is using a TLS connection.ja4 Optional string. JA4 fingerprint signature. This will be available only if the client is using a TLS connection.event.session(Optional)The current login session.Includes the following properties:authenticated_at Optional string. [Enterprise Customers] The date and time when the session was last authenticated.clients Optional array of objects. [Enterprise Customers] List of client details for the session.Elements include the following properties:client_id String. [Enterprise Customers] ID of client for the session.created_at Optional string. [Enterprise Customers] The date and time when the session was created.device Optional object. [Enterprise Customers] Metadata related to the device used in the session.Includes the following properties:initial_asn Optional string. [Enterprise Customers] First autonomous system number associated with this session.initial_ip Optional string. [Enterprise Customers] First IP address associated with this session.initial_user_agent Optional string. [Enterprise Customers] First user agent of the device associated with this session.last_asn Optional string. [Enterprise Customers] Last autonomous system number from which this user logged in.last_ip Optional string. [Enterprise Customers] Last IP address from which this user logged in.last_user_agent Optional string. [Enterprise Customers] Last user agent of the device from which this user logged in.expires_at Optional string. [Enterprise Customers] The date and time when the session will expire.id String. The ID of the current session.idle_expires_at Optional string. [Enterprise Customers] The date and time when the session will expire if idle.last_interacted_at Optional string. [Enterprise Customers] The date and time when the session was last successfully interacted with.session_transfer Optional object. [Private Early Access] This object is defined when the session is created from a session transfer token (Native to Web SSO), undefined otherwise.Includes the following properties:parent_refresh_token Optional object. [Private Early Access] This object is defined when the refresh token is created from a session initiated as a result of session transfer (Native to Web SSO), undefined otherwise.Includes the following properties:id Optional string. [Private Early Access] The ID of the parent refresh token from which this session/refresh token was created as result of a session transfer (Native to Web SSO).updated_at Optional string. [Enterprise Customers] The date and time when the session was last updated.user_id Optional string. [Enterprise Customers] ID of the user which can be used when interacting with other APIs.event.session_transfer_token(Optional)[Private Early Access] Details of the current session transfer token being used to establish Single Sign-On (SSO) from a native application to a web application.Includes the following properties:client_id String. [Private Early Access] The client identifier of the application that issued the token.request Object. [Private Early Access] Details about the request that issued the token.Includes the following properties:asn Optional string. [Private Early Access] The Autonomous System Number (ASN) associated with the request that issued the token.geoip Optional object. Includes the following properties:cityName Optional string. continentCode Optional string. countryCode Optional string. countryCode3 Optional string. countryName Optional string. latitude Optional number. longitude Optional number. subdivisionCode Optional string. subdivisionName Optional string. timeZone Optional string. ip String. [Private Early Access] The IP address associated with the request that issued the token.user_agent Optional string. [Private Early Access] The User-Agent string of the device that issued the token.scope Array of strings. [Private Early Access] The scopes requested when the token was issued.event.statsLogin statistics for the current user.Includes the following properties:logins_count Number. The number of times this user has logged in.event.tenantDetails about the Tenant associated with the current transaction.Includes the following properties:id String. The name of the tenant.event.transaction(Optional)Details about the current transaction.Includes the following properties:acr_values Optional array of strings. Any acr_values provided in the original authentication request.id Optional string. Unique identifier for the transaction. Populated for all browser-based login flows.linking_id Optional string. Dynamic Linking ID that allows developers to reference this transaction.locale Optional string. The locale to be used for this transaction as determined by comparing the browser's requested languages to the tenant's language settings.login_hint Optional string. Hint to the Authorization Server about the login identifier the End-User might use to log in (if necessary).metadata Dictionary. [Limited Early Access] An object containing shared data across custom Actions for the duration of a transaction.Keys are of type StringValues are one of the following types:StringNumberBooleanprompt Optional array of strings. List of instructions indicating whether the user may be prompted for re-authentication and consent.protocol Optional string. Possible values include:oidc-basic-profile Most used, web-based login.oidc-ciba Client-Initiated Backchannel Authentication (CIBA).oauth2-token-exchange Exchanging an assertion for an Auth0-issued token.oidc-hybrid-profile Allows your application to have immediate access to an ID token while still providing for secure and safe retrieval of access and refresh tokens.samlp SAML protocol used on SaaS apps.wsfed WS-Federation used on Microsoft products like Office365.wstrust-usernamemixed WS-trust User/password login used on CRM and Office365.oidc-implicit-profile Used on mobile devices and single-page apps.oauth2-device-code Transaction using the Device Authorization Flow.oauth2-resource-owner User/password login typically used on database connections.oauth2-resource-owner-jwt-bearer Login using a bearer JWT signed with user's private key.oauth2-password Login using the password exchange.oauth2-webauthn Login using the webauthn exchange.oauth2-access-token @deprecated Getting a token with a Social Provider's access token.css-1lvvwdx{z-index:1500;pointer-events:none;}.css-1lvvwdx[data-popper-placement*="bottom"] .MuiTooltip-arrow{top:0;margin-top:-0.71em;}.css-1lvvwdx[data-popper-placement*="bottom"] .MuiTooltip-arrow::before{transform-origin:0 100%;}.css-1lvvwdx[data-popper-placement*="top"] .MuiTooltip-arrow{bottom:0;margin-bottom:-0.71em;}.css-1lvvwdx[data-popper-placement*="top"] .MuiTooltip-arrow::before{transform-origin:100% 0;}.css-1lvvwdx[data-popper-placement*="right"] .MuiTooltip-arrow{left:0;margin-left:-0.71em;height:1em;width:0.71em;}.css-1lvvwdx[data-popper-placement*="right"] .MuiTooltip-arrow::before{transform-origin:100% 100%;}.css-1lvvwdx[data-popper-placement*="left"] .MuiTooltip-arrow{right:0;margin-right:-0.71em;height:1em;width:0.71em;}.css-1lvvwdx[data-popper-placement*="left"] .MuiTooltip-arrow::before{transform-origin:0 0;}.css-jrsr9g{z-index:1500;pointer-events:none;}.css-jrsr9g[data-popper-placement*="bottom"] .MuiTooltip-arrow{top:0;margin-top:-0.71em;}.css-jrsr9g[data-popper-placement*="bottom"] .MuiTooltip-arrow::before{transform-origin:0 100%;}.css-jrsr9g[data-popper-placement*="top"] .MuiTooltip-arrow{bottom:0;margin-bottom:-0.71em;}.css-jrsr9g[data-popper-placement*="top"] .MuiTooltip-arrow::before{transform-origin:100% 0;}.css-jrsr9g[data-popper-placement*="right"] .MuiTooltip-arrow{left:0;margin-left:-0.71em;height:1em;width:0.71em;}.css-jrsr9g[data-popper-placement*="right"] .MuiTooltip-arrow::before{transform-origin:100% 100%;}.css-jrsr9g[data-popper-placement*="left"] .MuiTooltip-arrow{right:0;margin-right:-0.71em;height:1em;width:0.71em;}.css-jrsr9g[data-popper-placement*="left"] .MuiTooltip-arrow::before{transform-origin:0 0;} (more details here).oauth2-refresh-token Refreshing a token using the refresh token exchange.redirect_uri Optional string. The URL to which Auth0 will redirect the browser after the transaction is completed.requested_authorization_details Optional array of objects. The details of a rich authorization request per Section 2 of the Rich Authorization Requests spec at https://datatracker.ietf.org/doc/html/draft-ietf-oauth-rar#section-2.Elements include the following properties:type String. The type of authorization details as a string. The value of the type field determines the allowable contents of the object which contains it.requested_scopes Optional array of strings. The scopes requested (if any) when starting this authentication flow.response_mode Optional string. Informs the Authorization Server of the mechanism to be used for returning parameters from the Authorization Endpoint.Possible values include:query fragment form_post web_message response_type Optional array of strings. Possible values include:code token id_token state Optional string. An opaque arbitrary alphanumeric string your app adds to the initial request that Auth0 includes when redirecting back to your application.ui_locales Optional array of strings. The ui_locales provided in the original authentication request.event.userAn object describing the user on whose behalf the current transaction was initiated.Includes the following properties:app_metadata String. Custom fields that store info about a user that influences the user's access, such as support plan, security roles, or access control groups.created_at String. Timestamp indicating when the user profile was first created.email Optional string. (unique) User's email address.email_verified Boolean. Indicates whether the user has verified their email address.enrolledFactors Optional array of objects. An an array of authentication factors that the user has enrolled.Array elements:An object describing an enrolled authentication factor type and any factor-specific options.Includes the following properties:options Optional string. Additional options describing this instance of the enrolled factor.type String. The type of authentication factor such as push-notification, phone, email, otp, webauthn-roaming and webauthn-platform.family_name Optional string. User's family name.given_name Optional string. User's given name.identities Array of objects. Contains info retrieved from the identity provider with which the user originally authenticates. Users may also link their profile to multiple identity providers; those identities will then also appear in this array. The contents of an individual identity provider object varies by provider.Elements include the following properties:connection Optional string. Name of the Auth0 connection used to authenticate the user.isSocial Optional boolean. Indicates whether the connection is a social one.profileData Optional dictionary. User information associated with the connection. When profiles are linked, it is populated with the associated user info for secondary accounts.Keys are of type StringValues are one of the following types:Stringprovider Optional string. Name of the entity that is authenticating the user, such as Facebook, Google, SAML, or your own provider.user_id Optional string. User's unique identifier for this connection/provider.last_password_reset Optional string. Timestamp indicating the last time the user's password was reset/changed. At user creation, this field does not exist. This property is only available for Database connections.multifactor Optional array of strings. List of multi-factor authentication (MFA) providers with which the user is enrolled. This array is updated when the user enrolls in MFA and when an administrator resets a user's MFA enrollments.name Optional string. User's full name.nickname Optional string. User's nickname.phone_number Optional string. User's phone number.phone_verified Optional boolean. Indicates whether the user has verified their phone number.picture Optional string. URL pointing to the user's profile picture.updated_at String. Timestamp indicating when the user's profile was last updated/modified.user_id String. (unique) User's unique identifier.user_metadata String. Custom fields that store info about a user that does not impact what they can or cannot access, such as work address, home address, or user preferences.username Optional string. (unique) User's username.
+> Learn about the post-login Action trigger's event object, which provides contextual information about a single user logging in via Auth0.
+
+# Actions Triggers: post-login - Event Object
+
+The `event` object for the post-login Actions trigger provides contextual information about a single user logging in via Auth0.
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <code>event.authentication</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        Details about authentication signals obtained during the login flow.<br />
+        Includes the following properties:
+
+        <ul>
+          <li>
+            <code>methods</code> <em>Array of objects</em> — Contains the authentication methods a user has completed during their session.<br />
+            Array elements:
+
+            <ul>
+              <li>
+                One of the following object schemas:
+
+                <ul>
+                  <li>
+                    An object with the following properties:
+
+                    <ul>
+                      <li>
+                        <code>name</code> <em>String</em> — The name of the first factor that was completed. Values include:
+
+                        <ul>
+                          <li><code>"federated"</code> — A social or enterprise connection was used to authenticate the user as the first factor.</li>
+                          <li><code>"pwd"</code> — A password was used to authenticate a database connection user as the first factor.</li>
+                          <li><code>"passkey"</code> — A passkey was used to authenticate a database connection user as the first factor.</li>
+                          <li><code>"sms"</code> — Passwordless SMS used to authenticate the user as the first factor.</li>
+                          <li><code>"email"</code> — Passwordless Email used as the first factor or to verify email for password reset.</li>
+                          <li><code>"phone\_number"</code> — A phone number was used for password reset.</li>
+                          <li><code>"mock"</code> — Used for internal testing.</li>
+                          <li><code>string</code> — A custom authentication method denoted by a URL (as second or later factor).</li>
+                        </ul>
+                      </li>
+
+                      <li><code>timestamp</code> <em>String</em></li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    An object with the following properties:
+
+                    <ul>
+                      <li><code>name</code> <em>The value "mfa"</em> — The user completed multi-factor authentication (second or later factors).</li>
+                      <li><code>timestamp</code> <em>String</em></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <code>riskAssessment</code> <em>Optional object</em> — Details about risk assessments obtained during the login or password reset flow.<br />
+            Includes the following properties:
+
+            <ul>
+              <li>
+                <code>assessments</code> <em>Object</em> — Includes the following properties:
+
+                <ul>
+                  <li>
+                    <code>ImpossibleTravel</code> <em>Optional object</em> — Determines if the user is logging in from a location signaling impossible travel.<br />
+                    Includes the following properties:
+
+                    <ul>
+                      <li>
+                        <code>code</code> <em>String</em> — Possible values include:
+
+                        <ul>
+                          <li><code>minimal\_travel\_from\_last\_login</code></li>
+                          <li><code>travel\_from\_last\_login</code></li>
+                          <li><code>substantial\_travel\_from\_last\_login</code></li>
+                          <li><code>impossible\_travel\_from\_last\_login</code></li>
+                          <li><code>invalid\_travel</code></li>
+                          <li><code>missing\_geoip</code></li>
+                          <li><code>anonymous\_proxy</code></li>
+                          <li><code>unknown\_location</code></li>
+                          <li><code>initial\_login</code></li>
+                          <li><code>location\_history\_not\_found</code></li>
+                          <li><code>assessment\_not\_available</code></li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>confidence</code> <em>String</em> — Possible values include:
+
+                        <ul>
+                          <li><code>low</code></li>
+                          <li><code>medium</code></li>
+                          <li><code>high</code></li>
+                          <li><code>neutral</code></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <code>NewDevice</code> <em>Optional object</em> — Determines if the user is logging in from a known device.<br />
+                    Includes the following properties:
+
+                    <ul>
+                      <li>
+                        <code>code</code> <em>String</em> — Possible values include:
+
+                        <ul>
+                          <li><code>match</code></li>
+                          <li><code>partial\_match</code></li>
+                          <li><code>no\_match</code></li>
+                          <li><code>initial\_login</code></li>
+                          <li><code>unknown\_device</code></li>
+                          <li><code>no\_device\_history</code></li>
+                          <li><code>assessment\_not\_available</code></li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>confidence</code> <em>String</em> — Possible values include:
+
+                        <ul>
+                          <li><code>low</code></li>
+                          <li><code>medium</code></li>
+                          <li><code>high</code></li>
+                          <li><code>neutral</code></li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>details</code> <em>Optional object</em> — Includes the following properties:
+
+                        <ul>
+                          <li>
+                            <code>device</code> <em>Optional string</em> — Possible values include:
+
+                            <ul>
+                              <li><code>known</code></li>
+                              <li><code>unknown</code></li>
+                            </ul>
+                          </li>
+
+                          <li>
+                            <code>useragent</code> <em>Optional string</em> — Possible values include:
+
+                            <ul>
+                              <li><code>known</code></li>
+                              <li><code>unknown</code></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <code>UntrustedIP</code> <em>Optional object</em> — Shows if the IP was found in Auth0's repository of low reputation IPs.<br />
+                    Includes the following properties:
+
+                    <ul>
+                      <li>
+                        <code>code</code> <em>String</em> — Possible values include:
+
+                        <ul>
+                          <li><code>not\_found\_on\_deny\_list</code></li>
+                          <li><code>found\_on\_deny\_list</code></li>
+                          <li><code>invalid\_ip\_address</code></li>
+                          <li><code>assessment\_not\_available</code></li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>confidence</code> <em>String</em> — Possible values include:
+
+                        <ul>
+                          <li><code>low</code></li>
+                          <li><code>medium</code></li>
+                          <li><code>high</code></li>
+                          <li><code>neutral</code></li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>details</code> <em>Optional object</em> — Includes the following properties:
+
+                        <ul>
+                          <li><code>category</code> <em>Optional string</em></li>
+                          <li><code>ip</code> <em>Optional string</em> — The originating IP address of the request.</li>
+                          <li><code>matches</code> <em>Optional string</em></li>
+                          <li><code>source</code> <em>Optional string</em></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <code>confidence</code> <em>String</em> — Overall risk score.<br />
+                Possible values include:
+
+                <ul>
+                  <li><code>low</code></li>
+                  <li><code>medium</code></li>
+                  <li><code>high</code></li>
+                  <li><code>neutral</code></li>
+                </ul>
+              </li>
+
+              <li>
+                <code>external</code> <em>Optional object</em> — \[Limited Early Access] External risk assessment.<br />
+                Includes the following properties:
+
+                <ul>
+                  <li>
+                    <code>akamai</code> <em>Optional object</em> — Includes:
+
+                    <ul>
+                      <li>
+                        <code>akamaiBot</code> <em>Optional object</em> — The bot detection results as forwarded by Akamai Bot Manager.<br />
+                        Includes the following properties:
+
+                        <ul>
+                          <li><code>action</code> <em>Optional string</em> — The action of the Akamai bot manager results.</li>
+                          <li><code>botCategory</code> <em>Optional array of strings</em> — The bot category.</li>
+                          <li><code>botScore</code> <em>Optional number</em> — The bot score.</li>
+                          <li><code>botScoreResponseSegment</code> <em>Optional string</em> — The bot score response segment.</li>
+                          <li><code>botnetId</code> <em>Optional string</em> — The botnet ID.</li>
+                          <li><code>type</code> <em>Optional string</em> — The type.</li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>akamaiUserRisk</code> <em>Optional object</em> — The user risk detection results as forwarded by Akamai Account Protector.<br />
+                        Includes the following properties:
+
+                        <ul>
+                          <li><code>action</code> <em>Optional string</em> — The action.</li>
+                          <li><code>allow</code> <em>Optional number</em> — The allowed status.</li>
+                          <li><code>emailDomain</code> <em>Optional string</em> — The user's email domain.</li>
+                          <li><code>general</code> <em>Optional string</em> — General risk.</li>
+                          <li><code>ouid</code> <em>Optional string</em> — The OUID.</li>
+                          <li><code>requestid</code> <em>Optional string</em> — The request ID.</li>
+                          <li><code>risk</code> <em>Optional string</em> — The risk.</li>
+                          <li><code>score</code> <em>Optional number</em> — The score.</li>
+                          <li><code>status</code> <em>Optional number</em> — The status.</li>
+                          <li><code>trust</code> <em>Optional string</em> — The trust level.</li>
+                          <li><code>username</code> <em>Optional string</em> — The username.</li>
+                          <li><code>uuid</code> <em>Optional string</em> — The UUID.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <code>supplemental</code> <em>Optional object</em> — \[Limited Early Access] Supplemental risk assessment.<br />
+                Includes the following properties:
+
+                <ul>
+                  <li>
+                    <code>akamai</code> <em>Optional object</em> — Includes:
+
+                    <ul>
+                      <li>
+                        <code>akamaiBot</code> <em>Optional object</em> — Bot detection (Akamai Bot Manager).<br />
+                        Includes:
+
+                        <ul>
+                          <li><code>action</code> <em>Optional string</em></li>
+                          <li><code>botCategory</code> <em>Optional array of strings</em></li>
+                          <li><code>botScore</code> <em>Optional number</em></li>
+                          <li><code>botScoreResponseSegment</code> <em>Optional string</em></li>
+                          <li><code>botnetId</code> <em>Optional string</em></li>
+                          <li><code>type</code> <em>Optional string</em></li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <code>akamaiUserRisk</code> <em>Optional object</em> — User risk (Akamai Account Protector).<br />
+                        Includes:
+
+                        <ul>
+                          <li><code>action</code> <em>Optional string</em></li>
+                          <li><code>allow</code> <em>Optional number</em></li>
+                          <li><code>emailDomain</code> <em>Optional string</em></li>
+                          <li><code>general</code> <em>Optional string</em></li>
+                          <li><code>ouid</code> <em>Optional string</em></li>
+                          <li><code>requestid</code> <em>Optional string</em></li>
+                          <li><code>risk</code> <em>Optional string</em></li>
+                          <li><code>score</code> <em>Optional number</em></li>
+                          <li><code>status</code> <em>Optional number</em></li>
+                          <li><code>trust</code> <em>Optional string</em></li>
+                          <li><code>username</code> <em>Optional string</em></li>
+                          <li><code>uuid</code> <em>Optional string</em></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+              <li><code>version</code> <em>String</em></li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.authorization</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        An object containing information describing the authorization granted to the user who is logging in.<br />
+        Includes the following properties:
+
+        <ul>
+          <li><code>roles</code> <em>Array of strings</em> — An array containing the names of a user's assigned roles.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>event.client</code></td>
+
+      <td>
+        Information about the Client with which this login transaction was initiated.<br />
+        Includes the following properties:
+
+        <ul>
+          <li><code>client\_id</code> <em>String</em> — The client id of the application to which the user is logging in.</li>
+
+          <li>
+            <code>metadata</code> <em>Dictionary</em> — An object for holding other application properties.<br />
+            Keys are <em>String</em>; values are one of: <em>String</em>
+          </li>
+
+          <li><code>name</code> <em>String</em> — The name of the application (as defined in the Dashboard).</li>
+
+          <li>
+            <code>refresh\_token</code> <em>Optional object</em> — \[Private Early Access] An object for holding refresh token configuration properties.<br />
+            Includes the following properties:
+
+            <ul>
+              <li>
+                <code>policies</code> <em>Optional array of objects</em> — \[Private Early Access] Policies for multi-resource refresh token exchange (MRRT).<br />
+                Elements include:
+
+                <ul>
+                  <li><code>audience</code> <em>Optional string</em> — Resource server (audience) to which this MRRT policy applies.</li>
+                  <li><code>scope</code> <em>Optional array of strings</em> — Scopes of access authorized for the audience.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>event.connection</code></td>
+
+      <td>
+        Details about the Connection that was used to authenticate the user.<br />
+        Includes:
+
+        <ul>
+          <li><code>id</code> <em>String</em> — The connection's unique identifier.</li>
+
+          <li>
+            <code>metadata</code> <em>Optional dictionary</em> — Metadata associated with the connection.<br />
+            Keys are <em>String</em>; values are one of: <em>String</em>
+          </li>
+
+          <li>
+            <code>name</code> <em>String</em> — The name of the connection used to authenticate the user (e.g., <code>twitter</code>, <code>some-g-suite-domain</code>).
+          </li>
+
+          <li>
+            <code>strategy</code> <em>String</em> — The type of connection. For social connections, <code>event.connection.strategy === event.connection.name</code>. For enterprise connections, examples: <code>waad</code> (Azure AD), <code>ad</code> (AD/LDAP), <code>auth0</code> (database), etc.
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.organization</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        Details about the Organization associated with the current transaction.<br />
+        Includes:
+
+        <ul>
+          <li><code>display\_name</code> <em>String</em> — The friendly name of the Organization.</li>
+          <li><code>id</code> <em>String</em> — The Organization identifier.</li>
+
+          <li>
+            <code>metadata</code> <em>Dictionary</em> — Metadata associated with the Organization.<br />
+            Keys are <em>String</em>; values are one of: <em>String</em>
+          </li>
+
+          <li><code>name</code> <em>String</em> — The name of the Organization.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.prompt</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        Collected data from rendered custom prompts.<br />
+        Includes:
+
+        <ul>
+          <li><code>fields</code> <em>Optional string</em> — Fields and hidden fields data.</li>
+          <li><code>id</code> <em>String</em> — The prompt ID.</li>
+          <li><code>vars</code> <em>Optional string</em> — Shared variables data.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.refresh\_token</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        \[Enterprise Customers] The current refresh token.<br />
+        Includes:
+
+        <ul>
+          <li><code>client\_id</code> <em>Optional string</em> — The ID of the client associated with the refresh token.</li>
+          <li><code>created\_at</code> <em>String</em> — Timestamp when the refresh token was created.</li>
+
+          <li>
+            <code>device</code> <em>Optional object</em> — Includes:
+
+            <ul>
+              <li><code>initial\_asn</code> <em>Optional string</em> — First ASN associated with this refresh token.</li>
+              <li><code>initial\_ip</code> <em>Optional string</em> — First IP address associated with this refresh token.</li>
+              <li><code>initial\_user\_agent</code> <em>Optional string</em> — First user agent of the device.</li>
+              <li><code>last\_asn</code> <em>Optional string</em> — Last ASN from which this token was exchanged.</li>
+              <li><code>last\_ip</code> <em>Optional string</em> — Last IP address from which this token was exchanged.</li>
+              <li><code>last\_user\_agent</code> <em>Optional string</em> — Last user agent of the device.</li>
+            </ul>
+          </li>
+
+          <li><code>expires\_at</code> <em>Optional string</em> — Absolute expiry timestamp.</li>
+          <li><code>id</code> <em>String</em> — The refresh token ID.</li>
+          <li><code>idle\_expires\_at</code> <em>Optional string</em> — Idle expiry timestamp.</li>
+          <li><code>last\_exchanged\_at</code> <em>Optional string</em> — Timestamp of last successful exchange.</li>
+
+          <li>
+            <code>resource\_servers</code> <em>Optional array of objects</em> — Elements include:
+
+            <ul>
+              <li><code>audience</code> <em>String</em> — The audience of the refresh token.</li>
+              <li><code>scopes</code> <em>String</em> — Scopes of the refresh token.</li>
+            </ul>
+          </li>
+
+          <li><code>rotating</code> <em>Optional boolean</em> — Whether it is a rotating refresh token.</li>
+          <li><code>session\_id</code> <em>Optional string</em> — Session ID bound to the refresh token.</li>
+
+          <li>
+            <code>session\_transfer</code> <em>Optional object</em> — \[Private Early Access] Defined when the session is created from a session transfer token (Native to Web SSO).<br />
+            Includes:
+
+            <ul>
+              <li>
+                <code>parent\_refresh\_token</code> <em>Optional object</em> — Defined when the refresh token is created from a session initiated via session transfer.<br />
+                Includes:
+
+                <ul>
+                  <li><code>id</code> <em>Optional string</em> — The ID of the parent refresh token.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li><code>user\_id</code> <em>Optional string</em> — ID of the user bound to the refresh token.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>event.request</code></td>
+
+      <td>
+        Details about the request that initiated the transaction.<br />
+        Includes:
+
+        <ul>
+          <li><code>asn</code> <em>Optional string</em> — ASN of the user-agent making the request.</li>
+          <li><code>body</code> <em>String</em> — Body of the POST request (available in refresh token, Client Credential Exchange, Post Login Action).</li>
+
+          <li>
+            <code>geoip</code> <em>Object</em> — Includes:
+
+            <ul>
+              <li><code>cityName</code> <em>Optional string</em></li>
+              <li><code>continentCode</code> <em>Optional string</em></li>
+              <li><code>countryCode</code> <em>Optional string</em></li>
+              <li><code>countryCode3</code> <em>Optional string</em></li>
+              <li><code>countryName</code> <em>Optional string</em></li>
+              <li><code>latitude</code> <em>Optional number</em></li>
+              <li><code>longitude</code> <em>Optional number</em></li>
+              <li><code>subdivisionCode</code> <em>Optional string</em></li>
+              <li><code>subdivisionName</code> <em>Optional string</em></li>
+              <li><code>timeZone</code> <em>Optional string</em></li>
+            </ul>
+          </li>
+
+          <li><code>hostname</code> <em>Optional string</em> — Hostname used for the authentication flow.</li>
+          <li><code>ip</code> <em>String</em> — Originating IP address.</li>
+          <li><code>language</code> <em>Optional string</em> — Language requested by the browser.</li>
+          <li><code>method</code> <em>String</em> — HTTP method.</li>
+          <li><code>query</code> <em>String</em> — Query string parameters sent to the authorization request.</li>
+          <li><code>user\_agent</code> <em>Optional string</em> — Value of the <code>User-Agent</code> header.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.resource\_server</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        Details about the resource server to which access is being requested.<br />
+        Includes:
+
+        <ul>
+          <li><code>identifier</code> <em>String</em> — Identifier of the resource server (e.g., `https://your-api.example.com`).</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.security\_context</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        An object containing fingerprint signatures. Available only when traffic is handled through the Auth0 Edge (default Auth0-managed proxy layer); may be missing in other routing scenarios.<br />
+        Includes:
+
+        <ul>
+          <li><code>ja3</code> <em>Optional string</em> — JA3 fingerprint signature (TLS only).</li>
+          <li><code>ja4</code> <em>Optional string</em> — JA4 fingerprint signature (TLS only).</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.session</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        The current login session.<br />
+        Includes:
+
+        <ul>
+          <li><code>authenticated\_at</code> <em>Optional string</em> — \[Enterprise Customers] Last authenticated time.</li>
+
+          <li>
+            <code>clients</code> <em>Optional array of objects</em> — \[Enterprise Customers] List of client details for the session.<br />
+            Elements include:
+
+            <ul>
+              <li><code>client\_id</code> <em>String</em> — ID of the client for the session.</li>
+            </ul>
+          </li>
+
+          <li><code>created\_at</code> <em>Optional string</em> — \[Enterprise Customers] When the session was created.</li>
+
+          <li>
+            <code>device</code> <em>Optional object</em> — \[Enterprise Customers] Device metadata.<br />
+            Includes:
+
+            <ul>
+              <li><code>initial\_asn</code> <em>Optional string</em></li>
+              <li><code>initial\_ip</code> <em>Optional string</em></li>
+              <li><code>initial\_user\_agent</code> <em>Optional string</em></li>
+              <li><code>last\_asn</code> <em>Optional string</em></li>
+              <li><code>last\_ip</code> <em>Optional string</em></li>
+              <li><code>last\_user\_agent</code> <em>Optional string</em></li>
+            </ul>
+          </li>
+
+          <li><code>expires\_at</code> <em>Optional string</em> — \[Enterprise Customers] Expiry time.</li>
+          <li><code>id</code> <em>String</em> — Session ID.</li>
+          <li><code>idle\_expires\_at</code> <em>Optional string</em> — \[Enterprise Customers] Idle expiry time.</li>
+          <li><code>last\_interacted\_at</code> <em>Optional string</em> — \[Private Early Access] Session Metadata</li>
+          <li><code>metadata</code> <em>Optional string</em> — \[Enterprise Customers] Last interaction time.</li>
+
+          <li>
+            <code>session\_transfer</code> <em>Optional object</em> — \[Private Early Access] Defined when the session is created from a session transfer token (Native to Web SSO).<br />
+            Includes:
+
+            <ul>
+              <li>
+                <code>parent\_refresh\_token</code> <em>Optional object</em> — Defined when the refresh token is created via session transfer.<br />
+                Includes:
+
+                <ul>
+                  <li><code>id</code> <em>Optional string</em> — Parent refresh token ID.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li><code>updated\_at</code> <em>Optional string</em> — \[Enterprise Customers] Last update time.</li>
+          <li><code>user\_id</code> <em>Optional string</em> — \[Enterprise Customers] User ID.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.session\_transfer\_token</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        \[Private Early Access] Details of the current session transfer token used to establish SSO from a native app to a web app.<br />
+        Includes:
+
+        <ul>
+          <li><code>client\_id</code> <em>String</em> — Client identifier of the application that issued the token.</li>
+
+          <li>
+            <code>request</code> <em>Object</em> — Details about the request that issued the token.<br />
+            Includes:
+
+            <ul>
+              <li><code>asn</code> <em>Optional string</em> — ASN associated with the issuing request.</li>
+
+              <li>
+                <code>geoip</code> <em>Optional object</em> — Includes:
+
+                <ul>
+                  <li><code>cityName</code> <em>Optional string</em></li>
+                  <li><code>continentCode</code> <em>Optional string</em></li>
+                  <li><code>countryCode</code> <em>Optional string</em></li>
+                  <li><code>countryCode3</code> <em>Optional string</em></li>
+                  <li><code>countryName</code> <em>Optional string</em></li>
+                  <li><code>latitude</code> <em>Optional number</em></li>
+                  <li><code>longitude</code> <em>Optional number</em></li>
+                  <li><code>subdivisionCode</code> <em>Optional string</em></li>
+                  <li><code>subdivisionName</code> <em>Optional string</em></li>
+                  <li><code>timeZone</code> <em>Optional string</em></li>
+                </ul>
+              </li>
+
+              <li><code>ip</code> <em>String</em> — IP address associated with the issuing request.</li>
+              <li><code>user\_agent</code> <em>Optional string</em> — User-Agent of the device that issued the token.</li>
+            </ul>
+          </li>
+
+          <li><code>scope</code> <em>Array of strings</em> — Scopes requested when the token was issued.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>event.stats</code></td>
+
+      <td>
+        Login statistics for the current user.<br />
+        Includes:
+
+        <ul>
+          <li><code>logins\_count</code> <em>Number</em> — Number of times the user has logged in.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>event.tenant</code></td>
+
+      <td>
+        Details about the Tenant associated with the current transaction.<br />
+        Includes:
+
+        <ul>
+          <li><code>id</code> <em>String</em> — The name of the tenant.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <code>event.transaction</code><br />
+        <p><em>(Optional)</em></p>
+      </td>
+
+      <td>
+        Details about the current transaction.<br />
+        Includes:
+
+        <ul>
+          <li><code>acr\_values</code> <em>Optional array of strings</em> — Any <code>acr\_values</code> provided in the original authentication request.</li>
+          <li><code>id</code> <em>Optional string</em> — Unique identifier for the transaction (browser-based flows).</li>
+          <li><code>linking\_id</code> <em>Optional string</em> — Dynamic Linking ID to reference this transaction.</li>
+          <li><code>locale</code> <em>Optional string</em> — Locale chosen for this transaction.</li>
+          <li><code>login\_hint</code> <em>Optional string</em> — Hint about the login identifier the end user might use.</li>
+
+          <li>
+            <code>metadata</code> <em>Dictionary</em> — \[Limited Early Access] Shared data across custom Actions for the duration of a transaction.<br />
+            Keys are <em>String</em>; values are one of: <em>String</em>, <em>Number</em>, <em>Boolean</em>
+          </li>
+
+          <li><code>prompt</code> <em>Optional array of strings</em> — Instructions for whether the user may be prompted for re-auth and consent.</li>
+
+          <li>
+            <code>protocol</code> <em>Optional string</em> — Possible values include:
+
+            <ul>
+              <li><code>oidc-basic-profile</code> — Most used, web-based login.</li>
+              <li><code>oidc-ciba</code> — Client-Initiated Backchannel Authentication.</li>
+              <li><code>oauth2-token-exchange</code> — Exchanging an assertion for an Auth0-issued token.</li>
+              <li><code>oidc-hybrid-profile</code> — Hybrid profile (ID token immediate + secure retrieval of access/refresh tokens).</li>
+              <li><code>samlp</code> — SAML protocol for SaaS apps.</li>
+              <li><code>wsfed</code> — WS-Federation (e.g., Office365).</li>
+              <li><code>wstrust-usernamemixed</code> — WS-Trust user/password (CRM/Office365).</li>
+              <li><code>oidc-implicit-profile</code> — Mobile and SPAs.</li>
+              <li><code>oauth2-device-code</code> — Device Authorization Flow.</li>
+              <li><code>oauth2-resource-owner</code> — User/password login on database connections.</li>
+              <li><code>oauth2-resource-owner-jwt-bearer</code> — Login using a bearer JWT.</li>
+              <li><code>oauth2-password</code> — Password exchange.</li>
+              <li><code>oauth2-webauthn</code> — WebAuthn exchange.</li>
+
+              <li>
+                <code>oauth2-access-token</code> — <em>@deprecated</em> Getting a token with a Social Provider's access token (see docs).
+              </li>
+
+              <li><code>oauth2-refresh-token</code> — Refreshing a token using the refresh token exchange.</li>
+            </ul>
+          </li>
+
+          <li><code>redirect\_uri</code> <em>Optional string</em> — Where Auth0 redirects after completion.</li>
+
+          <li>
+            <code>requested\_authorization\_details</code> <em>Optional array of objects</em> — Rich Authorization Requests Section 2.<br />
+            Elements include:
+
+            <ul>
+              <li><code>type</code> <em>String</em> — Type of authorization details.</li>
+            </ul>
+          </li>
+
+          <li><code>requested\_scopes</code> <em>Optional array of strings</em> — Scopes requested.</li>
+
+          <li>
+            <code>response\_mode</code> <em>Optional string</em> — Mechanism for returning parameters from the Authorization Endpoint.<br />
+            Possible values:
+
+            <ul>
+              <li><code>query</code></li>
+              <li><code>fragment</code></li>
+              <li><code>form\_post</code></li>
+              <li><code>web\_message</code></li>
+            </ul>
+          </li>
+
+          <li>
+            <code>response\_type</code> <em>Optional array of strings</em> — Possible values:
+
+            <ul>
+              <li><code>code</code></li>
+              <li><code>token</code></li>
+              <li><code>id\_token</code></li>
+            </ul>
+          </li>
+
+          <li><code>state</code> <em>Optional string</em> — Opaque string echoed back after redirect.</li>
+          <li><code>ui\_locales</code> <em>Optional array of strings</em> — <code>ui\_locales</code> from the original request.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>event.user</code></td>
+
+      <td>
+        An object describing the user on whose behalf the current transaction was initiated.<br />
+        Includes:
+
+        <ul>
+          <li><code>app\_metadata</code> <em>String</em> — Custom fields that impact access (e.g., plan, roles, groups).</li>
+          <li><code>created\_at</code> <em>String</em> — When the profile was created.</li>
+          <li><code>email</code> <em>Optional string</em> — (unique) Email address.</li>
+          <li><code>email\_verified</code> <em>Boolean</em> — Whether the email is verified.</li>
+
+          <li>
+            <code>enrolledFactors</code> <em>Optional array of objects</em> — Authentication factors the user has enrolled.<br />
+            Array elements:
+
+            <ul>
+              <li>
+                Object describing an enrolled factor type and options.<br />
+                Includes:
+
+                <ul>
+                  <li><code>options</code> <em>Optional string</em> — Additional options for the enrolled factor.</li>
+
+                  <li>
+                    <code>type</code> <em>String</em> — Factor type (e.g., <code>push-notification</code>, <code>phone</code>, <code>email</code>, <code>otp</code>, <code>webauthn-roaming</code>, <code>webauthn-platform</code>).
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li><code>family\_name</code> <em>Optional string</em> — Family name.</li>
+          <li><code>given\_name</code> <em>Optional string</em> — Given name.</li>
+
+          <li>
+            <code>identities</code> <em>Array of objects</em> — Info from identity providers used by the user (including linked profiles).<br />
+            Elements include:
+
+            <ul>
+              <li><code>connection</code> <em>Optional string</em> — Name of the Auth0 connection.</li>
+              <li><code>isSocial</code> <em>Optional boolean</em> — Whether the connection is social.</li>
+
+              <li>
+                <code>profileData</code> <em>Optional dictionary</em> — User information associated with the connection (secondary accounts when linked).<br />
+                Keys are <em>String</em>; values are one of: <em>String</em>
+              </li>
+
+              <li><code>provider</code> <em>Optional string</em> — Provider name (e.g., Facebook, Google, SAML).</li>
+              <li><code>user\_id</code> <em>Optional string</em> — Unique identifier for this connection/provider.</li>
+            </ul>
+          </li>
+
+          <li><code>last\_password\_reset</code> <em>Optional string</em> — Last time the user's password was changed (Database connections only).</li>
+          <li><code>multifactor</code> <em>Optional array of strings</em> — MFA providers with which the user is enrolled.</li>
+          <li><code>name</code> <em>Optional string</em> — Full name.</li>
+          <li><code>nickname</code> <em>Optional string</em> — Nickname.</li>
+          <li><code>phone\_number</code> <em>Optional string</em> — Phone number.</li>
+          <li><code>phone\_verified</code> <em>Optional boolean</em> — Whether the phone number is verified.</li>
+
+          <li>
+            <code>picture</code> <em>Optional string</em> — URL to the user's profile picture.
+          </li>
+
+          <li><code>updated\_at</code> <em>String</em> — When the profile was last updated.</li>
+          <li><code>user\_id</code> <em>String</em> — (unique) User ID.</li>
+
+          <li>
+            <code>user\_metadata</code> <em>String</em> — Custom fields that do not impact access (e.g., addresses, preferences).
+          </li>
+
+          <li><code>username</code> <em>Optional string</em> — (unique) Username.</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>

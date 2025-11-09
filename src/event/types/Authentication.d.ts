@@ -11,7 +11,8 @@ export interface EventAuthentication {
    */
   riskAssessment: RiskAssessment | undefined
   confidence: ConfidenceLevel
-  external: External
+  external: ExternalRiskAssessment | undefined
+  supplemental: SupplementalRiskAssessment | undefined
   version: string
 }
 
@@ -99,22 +100,23 @@ interface UntrustedIPAssessment {
     | 'invalid_ip_address'
     | 'assessment_not_available'
   confidence: ConfidenceLevel
-  details?: {
-    category?: string
+  details: {
+    category: string | undefined
     /**
      * The originating IP address of the request
      */
-    ip?: string
-    matches?: string
-    source?: string
+    ip: string | undefined
+    matches: string | undefined
+    source: string | undefined
   }
 }
 
-interface External {
-  akamai?: AkamaiRiskAssessment
-  supplemental?: {
-    akamai: AkamaiRiskAssessment
-  }
+interface ExternalRiskAssessment {
+  akamai: AkamaiRiskAssessment | undefined
+}
+
+interface SupplementalRiskAssessment {
+  akamai: AkamaiRiskAssessment | undefined
 }
 
 interface AkamaiRiskAssessment {
