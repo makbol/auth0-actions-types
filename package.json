@@ -1,6 +1,6 @@
 {
   "name": "auth0-actions-types",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "description": "TypeScript type definitions for Auth0 Actions runtime and event objects. Forked conceptually from\nthe unmaintained ecosystem packages; focuses on correctness, currency, and CI enforced quality.",
   "main": "src/index.d.ts",

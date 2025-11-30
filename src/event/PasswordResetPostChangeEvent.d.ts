@@ -1,10 +1,23 @@
-import { EventConnection, EventRequest, EventTenant, EventUser } from './types'
+import {
+  EventCustomDomain,
+  EventConnection,
+  EventRequest,
+  EventTenant,
+  EventUser
+} from './types'
 
 export interface PasswordResetPostChangeEvent {
   /**
    * Details about the Connection that was used to authenticate the user.
    */
   connection: EventConnection
+
+  /**
+   * Details about the custom domain name information
+   *
+   * Early access
+   */
+  custom_domain: EventCustomDomain
 
   /**
    * Details about the request that initiated the transaction.

@@ -1,5 +1,6 @@
 import {
   EventAccessToken,
+  EventCustomDomain,
   EventClient,
   EventOrganization,
   EventRequest,
@@ -18,6 +19,13 @@ export interface CredentialsExchangeEvent {
    * Information about the Client with which this login transaction was initiated.
    */
   client: Omit<EventClient, 'refresh_token'>
+
+  /**
+   * Details about the custom domain name information
+   *
+   * Early access
+   */
+  custom_domain: EventCustomDomain
 
   /**
    * Details about the Organization associated with the current transaction.
