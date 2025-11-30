@@ -1,4 +1,5 @@
 import {
+  EventCustomDomain,
   EventClient,
   EventConnection,
   EventRequest,
@@ -13,6 +14,14 @@ export interface PreUserRegistrationEvent {
    * Information about the Client with which this login transaction was initiated.
    */
   client: Omit<EventClient, 'refresh_token'> | undefined
+
+  /**
+   * Details about the custom domain name information
+   *
+   * Early access
+   */
+  custom_domain: EventCustomDomain
+
   /**
    * Details about the Connection that was used to authenticate the user.
    */

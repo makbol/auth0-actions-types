@@ -1,4 +1,5 @@
 import {
+  EventCustomDomain,
   EventConnection,
   EventRequest,
   EventSecurityContext,
@@ -12,6 +13,13 @@ export interface PostUserRegistrationEvent {
    * Details about the Connection that was used to authenticate the user.
    */
   connection: EventConnection
+
+  /**
+   * Details about the custom domain name information
+   *
+   * Early access
+   */
+  custom_domain: EventCustomDomain
 
   /**
    * Details about the request that initiated the transaction.

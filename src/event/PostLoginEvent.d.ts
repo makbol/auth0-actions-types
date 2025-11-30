@@ -3,6 +3,7 @@ import {
   EventAuthorization,
   EventClient,
   EventConnection,
+  EventCustomDomain,
   EventOrganization,
   EventRequest,
   EventResourceServer,
@@ -37,6 +38,13 @@ export interface PostLoginEvent {
    * Details about the Connection that was used to authenticate the user.
    */
   connection: EventConnection
+
+  /**
+   * Details about the custom domain name information
+   *
+   * Early access
+   */
+  custom_domain: EventCustomDomain
 
   /**
    * Details about the Organization associated with the current transaction.

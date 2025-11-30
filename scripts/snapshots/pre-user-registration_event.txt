@@ -86,6 +86,23 @@ The `event` object for the pre-user-registration Actions trigger provides contex
     </tr>
 
     <tr>
+      <td><code>event.custom\_domain</code> (Early access)</td>
+
+      <td>
+        <p>Details about the custom domain name information.</p>
+        <p>Includes the following properties:</p>
+
+        <ul>
+          <li><code>domain</code> <em>String</em>. The custom domain where the authentication event occurred.</li>
+
+          <li>
+            <code>domain\_metadata</code> <em>Object</em>. Metadata associated with the custom domain.<br />
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
       <td>
         <p><code>event.request</code></p>
       </td>
