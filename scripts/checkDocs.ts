@@ -44,8 +44,6 @@ async function checkDocs(diffName: string, url: string) {
   if (snapshot !== currentDocContent) {
     const diff = diffWords(snapshot, currentDocContent)
 
-    console.log(diff)
-
     return {
       diffName,
       changes: colorizeDiff(diff)
